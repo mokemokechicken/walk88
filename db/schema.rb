@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130622115215) do
+ActiveRecord::Schema.define(version: 20130622141736) do
+
+  create_table "locations", force: true do |t|
+    t.integer "number"
+    t.string  "name"
+    t.string  "address"
+    t.float   "lat"
+    t.float   "lon"
+    t.float   "next_distance"
+  end
+
+  add_index "locations", ["number"], name: "index_locations_on_number", unique: true
 
   create_table "user_records", force: true do |t|
     t.integer  "user_id"
