@@ -1,9 +1,23 @@
 Walk88::Application.routes.draw do
+  resources :user_settings
+
+  devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks'}
+
+  devise_scope :user do
+    get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
+    get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
+  end
+
+  # resources :user
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
+
+  root :to => 'home#index'
+  get '/', :to => 'home#index', :as => :sign_in_and_redirect
+  get '/', :to => 'home#index', :as => :new_user_registration_url
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
