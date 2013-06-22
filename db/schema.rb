@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130622100822) do
+ActiveRecord::Schema.define(version: 20130622115215) do
+
+  create_table "user_records", force: true do |t|
+    t.integer  "user_id"
+    t.date     "day"
+    t.integer  "steps"
+    t.float    "distance"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_records", ["user_id", "day"], name: "index_user_records_on_user_id_and_day", unique: true
 
   create_table "user_settings", force: true do |t|
     t.integer  "step_dist"

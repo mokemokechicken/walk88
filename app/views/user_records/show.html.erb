@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @user_record.user_id %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @user_record.day %>
+</p>
+
+<p>
+  <strong>Steps:</strong>
+  <%= @user_record.steps %>
+</p>
+
+<p>
+  <strong>Distance:</strong>
+  <%= @user_record.distance %>
+</p>
+
+<%= link_to 'Edit', edit_user_record_path(@user_record) %> |
+<%= link_to 'Back', user_records_path %>

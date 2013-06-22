@@ -1,0 +1,33 @@
+<h1>Listing user_records</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Day</th>
+      <th>Steps</th>
+      <th>Distance</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_records.each do |user_record| %>
+      <tr>
+        <td><%= user_record.user_id %></td>
+        <td><%= user_record.day %></td>
+        <td><%= user_record.steps %></td>
+        <td><%= user_record.distance %></td>
+        <td><%= link_to 'Show', user_record %></td>
+        <td><%= link_to 'Edit', edit_user_record_path(user_record) %></td>
+        <td><%= link_to 'Destroy', user_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User record', new_user_record_path %>

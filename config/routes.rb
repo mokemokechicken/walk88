@@ -1,4 +1,6 @@
 Walk88::Application.routes.draw do
+  resources :user_records
+
   resources :user_settings
 
   devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks'}
