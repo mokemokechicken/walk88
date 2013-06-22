@@ -1,6 +1,11 @@
 <%= link_to 'Logout', destroy_user_session_path %>
 <h1>Home</h1>
 <%= image_tag @user.image %>
+<br>
+<%= link_to 'settings', :controller => 'user_settings', :action => 'show', :id => @user.id %>
+<br>
+<%= link_to 'settings', @user_setting %>
+
 
 <br>
 <%= @user.inspect %>
