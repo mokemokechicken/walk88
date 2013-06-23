@@ -12,15 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :day %><br>
-    <%= f.date_select :day, :use_month_numbers => true %>
+    <%= f.label :day, '日付' %><br>
+    <%= f.date_select :day, :default => Date.yesterday, :use_month_numbers => true %>
   </div>
   <div class="field">
-    <%= f.label :steps %><br>
+    <%= f.label :steps, '歩数' %><br>
     <%= f.number_field :steps, :onchange => "$('#user_record_distance').val('%.2f'.sprintf(this.value * #{@user_setting.step_dist.to_s.to_f/100000.0}))" %>
   </div>
   <div class="field">
-    <%= f.label :distance %><br>
+    <%= f.label :distance, '距離(Km)' %><br>
     <%= f.text_field :distance %>
   </div>
   <div class="actions">
