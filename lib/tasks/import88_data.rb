@@ -12,6 +12,7 @@ class Import88Data
 
   def import
     Location.delete_all
+    total_distance = 0
     CSV.open(@filename, 'r', :col_sep => "\t") do |csv|
       csv.each_with_index do |record, i|
         next if record.size < 5
@@ -22,8 +23,10 @@ class Import88Data
             address: record[1],
             lat: lat,
             lon: lon,
-            next_distance: record[4].to_f
+            next_distance: record[4].to_f,
+            total_distance: total_distance
         )
+        total_distance += record[4].to_f
       end
     end
   end

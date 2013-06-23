@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130622141736) do
+ActiveRecord::Schema.define(version: 20130622222236) do
 
   create_table "locations", force: true do |t|
     t.integer "number"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20130622141736) do
     t.float   "lat"
     t.float   "lon"
     t.float   "next_distance"
+    t.float   "total_distance"
   end
 
   add_index "locations", ["number"], name: "index_locations_on_number", unique: true
@@ -36,10 +37,27 @@ ActiveRecord::Schema.define(version: 20130622141736) do
   add_index "user_records", ["user_id", "day"], name: "index_user_records_on_user_id_and_day", unique: true
 
   create_table "user_settings", force: true do |t|
+    t.integer  "user_id"
     t.integer  "step_dist"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "user_statuses", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "total_step",       default: 0
+    t.float    "total_distance",   default: 0.0
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "location_id"
+    t.integer  "next_location_id"
+    t.float    "next_distance"
+    t.date     "last_walk_day"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_statuses", ["user_id"], name: "index_user_statuses_on_user_id", unique: true
 
   create_table "users", force: true do |t|
     t.string   "uid"

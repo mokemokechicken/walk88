@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  total_step: 1
+  total_distance: 1
+  location_id: 1
+  next_distance: 1.5
+  last_walk_day: 2013-06-23
+
+two:
+  total_step: 1
+  total_distance: 1
+  location_id: 1
+  next_distance: 1.5
+  last_walk_day: 2013-06-23

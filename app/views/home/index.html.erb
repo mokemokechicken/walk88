@@ -2,11 +2,15 @@
 <h1>Home</h1>
 <%= image_tag @user.image %>
 <br>
+
+現在: <%= @user_status.total_step %> 歩、 <%= @user_status.total_distance %> Km <br>
+<%= @user_status.location.number %>: <%= @user_status.location.name %> <br>
+次の <%= @user_status.next_location.name %> まで あと <%= @user_status.next_distance %> Km <br>
+緯度<%= @user_status.lat %>,経度<%= @user_status.lon %> 付近
+<br>
 <%= link_to 'settings', @user_setting %>
 <br>
 <%= link_to 'add records', :controller => :user_records, :action => :new %>
-
-
 
 <br>
 <%= @user.inspect %>

@@ -1,4 +1,5 @@
 class UserRecordsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_user_record, only: [:show, :edit, :update, :destroy]
 
   # GET /user_records
@@ -32,11 +33,16 @@ class UserRecordsController < ApplicationController
       if @user_record.save
         format.html { redirect_to @user_record, notice: 'User record was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user_record }
+        on_update
       else
         format.html { render action: 'new' }
         format.json { render json: @user_record.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def on_update
+    UserStatus.update_user_status(current_user.id)
   end
 
   # PATCH/PUT /user_records/1
@@ -46,6 +52,7 @@ class UserRecordsController < ApplicationController
       if @user_record.update(user_record_params)
         format.html { redirect_to @user_record, notice: 'User record was successfully updated.' }
         format.json { head :no_content }
+        on_update
       else
         format.html { render action: 'edit' }
         format.json { render json: @user_record.errors, status: :unprocessable_entity }
@@ -57,6 +64,7 @@ class UserRecordsController < ApplicationController
   # DELETE /user_records/1.json
   def destroy
     @user_record.destroy
+    on_update
     respond_to do |format|
       format.html { redirect_to user_records_url }
       format.json { head :no_content }

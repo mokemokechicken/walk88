@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   def index
     @user = current_user
-    @user_setting = UserSetting.find_or_create_by(id: @user.id)
+    @user_setting = @user.user_setting || UserSetting.init(@user)
+    @user_status = @user.user_status || UserStatus.init(@user)
   end
 end

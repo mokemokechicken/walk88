@@ -7,6 +7,7 @@ class CreateLocations < ActiveRecord::Migration
       t.float   :lat
       t.float   :lon
       t.float   :next_distance
+      t.float   :total_distance
     end
     add_index :locations, :number, :unique => true
   end

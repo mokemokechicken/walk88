@@ -1,14 +1,10 @@
 class UserSettingsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_user_setting, only: [:show, :edit, :update, :destroy]
 
   # GET /user_settings/1
   # GET /user_settings/1.json
   def show
-  end
-
-  # GET /user_settings/new
-  def new
-    @user_setting = UserSetting.new
   end
 
   # GET /user_settings/1/edit
