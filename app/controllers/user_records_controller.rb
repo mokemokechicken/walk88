@@ -28,6 +28,10 @@ class UserRecordsController < ApplicationController
     record_params = user_record_params
     record_params[:user_id] = current_user.id
     @user_record = UserRecord.new(record_params)
+    if UserRecord.exists?(user_id: @user_record.user_id, day: @user_record.day)
+      @user_record = UserRecord.find_by(user_id: @user_record.user_id, day: @user_record.day)
+      return update
+    end
 
     respond_to do |format|
       if @user_record.save
