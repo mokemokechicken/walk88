@@ -22,8 +22,10 @@ class UserStatus < ActiveRecord::Base
   # @return [UserStatus]
   def update_user_status
     rec = UserRecord.where(user_id: user_id).select('sum(steps) as steps, sum(distance) as distance').first
+    last_day = UserRecord.where(user_id: user_id).maximum(:day)
     self.total_step = rec.steps || 0
     self.total_distance = rec.distance || 0
+    self.last_walk_day = last_day
     cl = Location.current_location(total_distance)
     self.location_id = cl.id
     nl = Location.find_by(number: cl.number+1)

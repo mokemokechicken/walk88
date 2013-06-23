@@ -20,8 +20,9 @@
   <%= @user_record.distance %>
 </p>
 
-<%= link_to '編集', edit_user_record_path(@user_record), :class => 'button' %>
-<%= link_to '追加入力', user_records_path, :class => 'button icon add' %>
-<%= link_to '記録一覧', user_records_path, :class => 'button icon log' %>
-<%= link_to 'Dashboard', root_path, :class => 'button icon home' %>
+<div class="button-group">
+  <%= link_to '編集', edit_user_record_path(@user_record), :class => 'button' %>
+  <%= link_to '追加入力', user_records_path, :class => 'button icon add' %>
+  <%= link_to '記録一覧', user_records_path, :class => 'button icon log' %>
+</div>
 

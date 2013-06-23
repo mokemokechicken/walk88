@@ -5,7 +5,10 @@ class UserRecordsController < ApplicationController
   # GET /user_records
   # GET /user_records.json
   def index
-    @user_records = UserRecord.all.order('day desc')[0...14]
+    user_id = params[:user_id] || current_user.id
+    @owner = user_id == current_user.id
+    @user = User.find(user_id)
+    @user_records = UserRecord.where(user_id: user_id).order('day desc')[0...14]
   end
 
   # GET /user_records/1
@@ -16,10 +19,12 @@ class UserRecordsController < ApplicationController
   # GET /user_records/new
   def new
     @user_record = UserRecord.new
+    @user_setting = current_user.user_setting
   end
 
   # GET /user_records/1/edit
   def edit
+    @user_setting = current_user.user_setting
   end
 
   # POST /user_records
@@ -35,7 +40,7 @@ class UserRecordsController < ApplicationController
 
     respond_to do |format|
       if @user_record.save
-        format.html { redirect_to @user_record, notice: 'User record was successfully created.' }
+        format.html { redirect_to user_records_url, notice: '保存しました' }
         format.json { render action: 'show', status: :created, location: @user_record }
         on_update
       else
@@ -52,9 +57,10 @@ class UserRecordsController < ApplicationController
   # PATCH/PUT /user_records/1
   # PATCH/PUT /user_records/1.json
   def update
+    return redirect_to root_url unless @user_record.user_id == current_user.id
     respond_to do |format|
       if @user_record.update(user_record_params)
-        format.html { redirect_to @user_record, notice: 'User record was successfully updated.' }
+        format.html { redirect_to user_records_url, notice: '保存しました' }
         format.json { head :no_content }
         on_update
       else
@@ -67,6 +73,7 @@ class UserRecordsController < ApplicationController
   # DELETE /user_records/1
   # DELETE /user_records/1.json
   def destroy
+    return redirect_to root_url unless @user_record.user_id == current_user.id
     @user_record.destroy
     on_update
     respond_to do |format|

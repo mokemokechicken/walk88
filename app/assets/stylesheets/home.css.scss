@@ -3,10 +3,24 @@
 // You can use Sass (SCSS) here:
 
 table.dashboard {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   border: blue solid thin;
   border-collapse: collapse;
-  tr, td {
+  th, tr, td {
     text-align: center;
     border: blue solid thin;
   }
+}
+
+div.main {
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.right {
+  margin-right: 0;
+  margin-left: auto;
 }

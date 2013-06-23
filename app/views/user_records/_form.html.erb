@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :day %><br>
-    <%= f.date_select :day %>
+    <%= f.date_select :day, :use_month_numbers => true %>
   </div>
   <div class="field">
     <%= f.label :steps %><br>
-    <%= f.number_field :steps %>
+    <%= f.number_field :steps, :onchange => "$('#user_record_distance').val('%.2f'.sprintf(this.value * #{@user_setting.step_dist.to_s.to_f/100000.0}))" %>
   </div>
   <div class="field">
     <%= f.label :distance %><br>

@@ -1,33 +1,31 @@
-<h1>Listing user_records</h1>
-
-<table>
+<h1><%= image_tag(@user.image, :alt => @user.nickname) %> <%= @user.nickname %>の記録一覧</h1>
+<table class="record">
   <thead>
-    <tr>
-      <th>User</th>
-      <th>Day</th>
-      <th>Steps</th>
-      <th>Distance</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+  <tr>
+    <th>日付</th>
+    <th>歩数</th>
+    <th>距離(Km)</th>
+    <th></th>
+    <th></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @user_records.each do |user_record| %>
+  <% @user_records.each do |user_record| %>
       <tr>
-        <td><%= user_record.user_id %></td>
         <td><%= user_record.day %></td>
         <td><%= user_record.steps %></td>
-        <td><%= user_record.distance %></td>
-        <td><%= link_to 'Show', user_record %></td>
-        <td><%= link_to 'Edit', edit_user_record_path(user_record) %></td>
-        <td><%= link_to 'Destroy', user_record, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= sprintf('%3.2f', user_record.distance) %></td>
+        <td><%= link_to '編集', edit_user_record_path(user_record), :class => 'button icon edit' if @owner %></td>
+        <td><%= link_to '削除', user_record, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button danger icon remove' if @owner %></td>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New User record', new_user_record_path %>
+<div class="button-group">
+  <%= link_to '追加入力', new_user_record_path, :class => 'button icon add' if @owner %>
+</div>
+
