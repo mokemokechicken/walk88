@@ -8,7 +8,9 @@ class UserRecordsController < ApplicationController
     user_id = params[:user_id] || current_user.id
     @owner = user_id == current_user.id
     @user = User.find(user_id)
-    @user_records = UserRecord.where(user_id: user_id).order('day desc')[0...14]
+    #@user_records = UserRecord.where(user_id: user_id).order('day desc')[0...14]
+    @user_records = UserRecord.where(user_id: user_id).
+        paginate(:page => params[:page], :per_page => 30).order('day desc')
   end
 
   # GET /user_records/1

@@ -22,8 +22,10 @@
   <% end %>
   </tbody>
 </table>
-
 <br>
+<div style="text-align: center;">
+  <%= will_paginate @user_records %>
+</div>
 
 <div class="button-group">
   <%= link_to '追加入力', new_user_record_path, :class => 'button icon add' if @owner %>
