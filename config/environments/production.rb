@@ -77,4 +77,12 @@ Walk88::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Devise
+  config.action_mailer.default_url_options = { :host => '54.248.76.99:2000' }
+
+  Devise.setup do |config|
+    config.omniauth :facebook, '473323666086601', '597e12cf0eb0d478817ad2eb709d2f7e', :scope => '', :display => 'popup'
+  end
+
 end
