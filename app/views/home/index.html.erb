@@ -26,7 +26,7 @@
             <%= status.location.number %>: <%= status.location.name %> <br>
             次の <%= status.next_location.name %> まで あと <%= sprintf('%3.2f', status.next_distance) %> Km
           </td>
-          <td><%= status.total_distance %> Km </td>
+          <td><%= sprintf('%3.2f', status.total_distance) %> Km </td>
           <td><%= status.total_step %> 歩</td>
           <td><%= status.last_walk_day %></td>
         </tr>
