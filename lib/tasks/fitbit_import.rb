@@ -5,10 +5,11 @@ class FitbitImport
              when 'yesterday' then Date.yesterday
              else Date.parse(day)
            end
-    client = Fitbit.create_client
+
     UserSetting.all.each do |setting|
       begin
         if !setting.fitbit_token.to_s.empty? && !setting.fitbit_secret.to_s.empty?
+          client = Fitbit.create_client
           record = UserRecord.find_by(user_id: setting.user_id, day: date)
           client.reconnect(setting.fitbit_token, setting.fitbit_secret)
           p client
