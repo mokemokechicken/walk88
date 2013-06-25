@@ -14,4 +14,8 @@ Walk88::Application.routes.draw do
   get '/', :to => 'home#index', :as => :sign_in_and_redirect
   get '/', :to => 'home#index', :as => :new_user_registration_url
 
+  get '/login_fitbit', :to => 'fitbit#login', :as => :fitbit_login
+  get '/callback/fitbit', :to => 'fitbit#callback'
+  get '/fitbit_login_success', :to => 'fitbit#login_success', :as => :fitbit_login_success
+
 end

@@ -33,4 +33,13 @@ Walk88::Application.configure do
   Devise.setup do |config|
     config.omniauth :facebook, '148921101965278', '3008c151d673260298ed29a14963603a', :scope => '', :display => 'popup'
   end
+
+  # fitbit
+  Fitbit.setup do |config|
+    config[:oauth] = {
+        consumer_key: 'e3ac54bf2e9d4b458c874e9180451dc4',
+        consumer_secret: '9ca02dedb3954d9eb0174d72ac85f9ea',
+    }
+  end
+
 end

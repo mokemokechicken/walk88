@@ -85,4 +85,12 @@ Walk88::Application.configure do
     config.omniauth :facebook, '473323666086601', '597e12cf0eb0d478817ad2eb709d2f7e', :scope => '', :display => 'popup'
   end
 
+  # fitbit
+  Fitbit.setup do |config|
+    config[:oauth] = {
+        consumer_key: '1014c07139f041a59f7558ed0f5eaa57',
+        consumer_secret: 'ec97dfb87e23460b86549f3d36b23eb2',
+    }
+  end
+
 end

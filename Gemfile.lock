@@ -56,6 +56,8 @@ GEM
       multi_json (~> 1.0)
     faraday (0.8.7)
       multipart-post (~> 1.1)
+    fitgem (0.7.0)
+      oauth
     hashie (2.0.5)
     hike (1.2.3)
     httpauth (0.2.0)
@@ -78,6 +80,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.7.7)
     multipart-post (1.2.0)
+    oauth (0.4.7)
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -164,6 +167,7 @@ DEPENDENCIES
   activerecord-session_store
   coffee-rails (~> 4.0.0)
   devise!
+  fitgem
   jbuilder (~> 1.2)
   jquery-rails
   omniauth-facebook
