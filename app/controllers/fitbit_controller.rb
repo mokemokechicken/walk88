@@ -36,7 +36,7 @@ class FitbitController < ApplicationController
   def login_success
     client = Fitbit.create_client
     client.reconnect(@user_setting.fitbit_token, @user_setting.fitbit_secret)
-    @activity = client.activities_on_date 'today'
+    @today = Fitbit.fetch_info_by_day(client, 'today')
   end
 
   private
