@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, File.expand_path('../log/cron_log.log', __FILE__)
+set :output, File.expand_path('../../log/cron_log.log', __FILE__)
 
 every 1.hours do
   runner 'FitbitImport.execute'
