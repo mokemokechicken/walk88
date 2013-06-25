@@ -21,3 +21,5 @@ Memo
 
     bundle exec rake assets:precompile
     bundle exec rails server -p 2000 -e production
+
+
