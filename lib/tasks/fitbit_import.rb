@@ -15,14 +15,14 @@ class FitbitImport
           if record
             record.update_attributes({
                  steps: info[:step].to_s.to_i,
-                 distance: info[:distance].to_s.to_i
+                 distance: info[:distance].to_s.to_f
             })
           else
             record = UserRecord.create({
                 user_id: setting.user_id,
                 day: date,
                 steps: info[:step].to_s.to_i,
-                distance: info[:distance].to_s.to_i
+                distance: info[:distance].to_s.to_f
                               })
           end
           p record
