@@ -15,9 +15,14 @@ class Fitbit
   end
 
   def self.fetch_info_by_day(client, day)
-    data = client.activities_on_date day
-    dist = data['summary']['distances'].select{|d| d['activity'] == 'total'}[0]['distance']
-    step = data['summary']['steps']
-    return {:dist => dist, :step => step}
+    begin
+      data = client.activities_on_date day
+      dist = data['summary']['distances'].select{|d| d['activity'] == 'total'}[0]['distance']
+      step = data['summary']['steps']
+      return {:dist => dist, :step => step}
+    rescue Exception => e
+      p e
+    end
+    return {:dist => 0, :step => 0, :error => true}
   end
 end
