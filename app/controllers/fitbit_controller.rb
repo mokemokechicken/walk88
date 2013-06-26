@@ -4,10 +4,14 @@ class FitbitController < ApplicationController
 
   def login
     client = Fitbit.create_client
-    if !@user_setting.fitbit_token.to_s.empty? && !@user_setting.fitbit_secret.to_s.empty?
+    if @user_setting.exist_fitbit_token?
       begin
         client.reconnect(@user_setting.fitbit_token, @user_setting.fitbit_secret)
-        return redirect_to fitbit_login_success_url
+        info = Fitbit.fetch_info_by_day(client, 'today')
+        unless info[:errors]
+          return redirect_to fitbit_login_success_url
+        end
+        @user_setting.invalidate_fitbit
       rescue Exception
       end
     end
@@ -37,6 +41,10 @@ class FitbitController < ApplicationController
     client = Fitbit.create_client
     client.reconnect(@user_setting.fitbit_token, @user_setting.fitbit_secret)
     @today = Fitbit.fetch_info_by_day(client, 'today')
+    if @today[:errors]
+      @errors = @today[:errors]
+      render 'connect_failure'
+    end
   end
 
   private

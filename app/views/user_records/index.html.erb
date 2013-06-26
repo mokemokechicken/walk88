@@ -5,8 +5,11 @@
     <th>日付</th>
     <th>歩数</th>
     <th>距離(Km)</th>
+    <% if @owner %>
     <th></th>
     <th></th>
+    <% if @user_setting.exist_fitbit_token? %><th></th><% end %>
+    <% end %>
   </tr>
   </thead>
 
@@ -14,10 +17,15 @@
   <% @user_records.each do |user_record| %>
       <tr>
         <td><%= user_record.day %></td>
-        <td><%= user_record.steps %></td>
-        <td><%= sprintf('%3.2f', user_record.distance) %></td>
-        <td><%= link_to '編集', edit_user_record_path(user_record), :class => 'button icon edit' if @owner %></td>
-        <td><%= link_to '削除', user_record, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button danger icon remove' if @owner %></td>
+        <td id="steps_<%= user_record.id %>"><%= user_record.steps %></td>
+        <td id="distance_<%= user_record.id %>"><%= sprintf('%3.2f', user_record.distance.to_f) %></td>
+        <% if @owner %>
+        <td><%= link_to '編集', edit_user_record_path(user_record), :class => 'button icon edit' %></td>
+        <td><%= link_to '削除', user_record, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button danger icon remove' %></td>
+        <% if @user_setting.exist_fitbit_token? %>
+            <td><%= link_to 'Fitbitと同期', '#1', onclick: "Fitbit().update_by_fitbit('#{user_record.id}')", :class => 'button icon reload' %> </td>
+        <% end %>
+        <% end %>
       </tr>
   <% end %>
   </tbody>

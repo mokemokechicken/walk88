@@ -1,14 +1,14 @@
 class UserRecordsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_user_record, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_record, only: [:show, :edit, :update, :destroy, :sync_fitbit]
 
   # GET /user_records
   # GET /user_records.json
   def index
-    user_id = params[:user_id] || current_user.id
+    user_id = (params[:user_id] || current_user.id).to_i
     @owner = user_id == current_user.id
     @user = User.find(user_id)
-    #@user_records = UserRecord.where(user_id: user_id).order('day desc')[0...14]
+    @user_setting = @user.user_setting
     @user_records = UserRecord.where(user_id: user_id).
         paginate(:page => params[:page], :per_page => 30).order('day desc')
   end
@@ -54,6 +54,24 @@ class UserRecordsController < ApplicationController
 
   def on_update
     UserStatus.update_user_status(current_user.id)
+  end
+
+  def sync_fitbit
+    if current_user.id == @user_record.user_id
+      setting = current_user.user_setting
+      client = Fitbit.create_client
+      client.reconnect(setting.fitbit_token, setting.fitbit_secret)
+      info = Fitbit.fetch_info_by_day(client, @user_record.day.to_s)
+      unless info[:errors]
+        @user_record.update_attributes(
+            steps: info[:step].to_s.to_i,
+            distance: info[:dist].to_s.to_f
+        )
+      end
+      render json: info
+    else
+      render json: {error: 'Not Permittied'}
+    end
   end
 
   # PATCH/PUT /user_records/1
