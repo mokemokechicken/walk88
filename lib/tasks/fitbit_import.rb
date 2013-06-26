@@ -26,6 +26,7 @@ class FitbitImport
                    steps: info[:step].to_s.to_i,
                    distance: info[:dist].to_s.to_f
               })
+              UserStatus.update_user_status(setting.user_id)
             end
           else
             record = UserRecord.create({
@@ -34,6 +35,7 @@ class FitbitImport
                 steps: info[:step].to_s.to_i,
                 distance: info[:dist].to_s.to_f
                               })
+            UserStatus.update_user_status(setting.user_id)
           end
           p record
           sleep 1

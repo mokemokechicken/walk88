@@ -67,6 +67,7 @@ class UserRecordsController < ApplicationController
             steps: info[:step].to_s.to_i,
             distance: info[:dist].to_s.to_f
         )
+        on_update
       end
       render json: info
     else
