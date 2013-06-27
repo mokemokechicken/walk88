@@ -8,6 +8,7 @@ Configuration
 --------------
 
     bundle install --path vendor/bundle
+    bin/decrypt      # for decrypt secrets.json
 
 
 Database initialization
