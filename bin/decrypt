@@ -5,7 +5,7 @@ set -e -a
 cd $(dirname $0)
 cd ..
 
-PTN='secret.json.crypted'
+PTN='secrets.json.crypted'
 
 bash -c "echo -n 'Master Password: '"
 read -s password

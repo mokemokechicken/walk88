@@ -18,4 +18,4 @@
 /.idea
 /vendor
 
-secret.json
+secrets.json

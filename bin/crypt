@@ -3,7 +3,7 @@
 cd $(dirname $0)
 cd ..
 
-PTN='secret.json'
+PTN='secrets.json'
 
 bash -c "echo -n 'Master Password: '"
 read -s password1

@@ -79,18 +79,5 @@ Walk88::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Devise
-  config.action_mailer.default_url_options = { :host => '54.248.76.99:2000' }
-
-  Devise.setup do |config|
-    config.omniauth :facebook, '473323666086601', '597e12cf0eb0d478817ad2eb709d2f7e', :scope => '', :display => 'popup'
-  end
-
-  # fitbit
-  Fitbit.setup do |config|
-    config[:oauth] = {
-        consumer_key: '1014c07139f041a59f7558ed0f5eaa57',
-        consumer_secret: 'ec97dfb87e23460b86549f3d36b23eb2',
-    }
-  end
-
+  config.action_mailer.default_url_options = { :host => '54.248.76.99:5000' }
 end
