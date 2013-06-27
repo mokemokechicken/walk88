@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e -a
+
+cd $(dirname $0)
+cd ..
+
+PTN='secret.json.crypted'
+
+bash -c "echo -n 'Master Password: '"
+read -s password
+echo
+
+
+for filename in `find . -name "$PTN"`
+do
+    out=${filename/.crypted/}
+    openssl enc -d -aes-256-cbc -in $filename -out $out -k "$password"
+    echo decrypt to $out
+done
+
