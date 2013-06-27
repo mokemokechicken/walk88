@@ -1,0 +1,31 @@
+%h1 Dashboard
+%div
+  = link_to '歩いた記録を追加する', {:controller => 'user_records', :action => 'new'}, :class => 'button icon add'
+%br
+%div
+  %table.dashboard
+    %thead
+      %tr
+        %td 順位
+        %td 人
+        %td 現在地
+        %td 累計距離
+        %td 累計歩数
+        %td 登録最終日
+    %tbody
+      - @current_statuses.each_with_index do |status, i|
+        %tr
+          %td= i+1
+          %td= link_to image_tag(status.user.image, :alt => status.user.nickname), user_records_of_user_path(:user_id => status.user_id)
+          %td
+            = status.location.number
+            \: #{status.location.name}
+            %br
+            次の #{status.next_location.name} まで あと #{sprintf('%3.2f', status.next_distance)} Km
+          %td
+            = sprintf('%3.2f', status.total_distance)
+            Km
+          %td
+            = status.total_step
+            歩
+          %td= status.last_walk_day

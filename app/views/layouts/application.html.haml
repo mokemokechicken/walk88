@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %title Walk88
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    .main
+      = link_to 'Dashboard', root_path, :class => 'button icon home'
+      .button-group{:style => "float:right;"}
+        %span
+          = link_to 'ユーザ設定', {:controller => 'user_settings', :action => 'edit', :id => @user.id}, :class => 'button icon settings' if @user
+          = link_to 'Logout', destroy_user_session_path, :class => 'button' if @user
+      %div{:style => "clear:right"}
+      = yield

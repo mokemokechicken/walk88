@@ -1,0 +1,5 @@
+%h1
+  = @user.nickname
+  の設定変更
+= render 'form'
+= link_to 'Fitbitと連携する', fitbit_login_path, :class => 'button'

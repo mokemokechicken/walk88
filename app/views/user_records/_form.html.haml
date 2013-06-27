@@ -1,0 +1,23 @@
+= form_for(@user_record) do |f|
+  - if @user_record.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@user_record.errors.count, "error")
+        prohibited this user_record from being saved:
+      %ul
+        - @user_record.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :day, '日付'
+    %br
+    = f.date_select :day, :default => Date.yesterday, :use_month_numbers => true
+  .field
+    = f.label :steps, '歩数'
+    %br
+    = f.number_field :steps, :onchange => "$('#user_record_distance').val('%.2f'.sprintf(this.value * #{@user_setting.step_dist.to_s.to_f/100000.0}))"
+  .field
+    = f.label :distance, '距離(Km)'
+    %br
+    = f.text_field :distance
+  .actions
+    = f.submit '登録する', :class => 'button icon edit'

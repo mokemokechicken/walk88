@@ -1,0 +1,17 @@
+%p#notice= notice
+%p
+  %strong User:
+  = @user_record.user_id
+%p
+  %strong Day:
+  = @user_record.day
+%p
+  %strong Steps:
+  = @user_record.steps
+%p
+  %strong Distance:
+  = @user_record.distance
+.button-group
+  = link_to '編集', edit_user_record_path(@user_record), :class => 'button'
+  = link_to '追加入力', user_records_path, :class => 'button icon add'
+  = link_to '記録一覧', user_records_path, :class => 'button icon log'
