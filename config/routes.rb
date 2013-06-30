@@ -21,4 +21,5 @@ Walk88::Application.routes.draw do
   get '/fitbit_login_success', :to => 'fitbit#login_success', :as => :fitbit_login_success
 
   resources :user_statuses, :only => %w(index)
+  resources :locations, :only => %w(index)
 end

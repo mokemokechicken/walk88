@@ -32,7 +32,7 @@ class UserStatus < ActiveRecord::Base
     if nl
       self.next_location_id = nl.id
       self.next_distance = cl.next_distance - (total_distance - cl.total_distance)
-      progress = self.next_distance / cl.next_distance
+      progress = 1 - (self.next_distance / cl.next_distance)
       self.lat = cl.lat * (1-progress) + nl.lat * progress
       self.lon = cl.lon * (1-progress) + nl.lon * progress
     end
