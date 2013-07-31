@@ -1,13 +1,13 @@
 class FitbitImport
-  def self.execute(day='today,yesterday')
-    new.start(day)
+  require 'date'
+
+  def self.execute(from_date='2013-06-01')
+    new.start(6, from_date)
   end
 
-  def start(days)
-    day_list = days.split(/,/)
-    day_list.each do |day|
-      date = parse_date(day)
-      import(date)
+  def start(days_ago, from_date)
+    Date.today.downto(Date.today - days_ago).each do |date|
+      import(date) if Date.parse(from_date) <= date
     end
   end
 
@@ -23,18 +23,18 @@ class FitbitImport
           if record
             if record.steps < info[:step].to_s.to_i
               record.update_attributes({
-                   steps: info[:step].to_s.to_i,
-                   distance: info[:dist].to_s.to_f
-              })
+                                           steps: info[:step].to_s.to_i,
+                                           distance: info[:dist].to_s.to_f
+                                       })
               UserStatus.update_user_status(setting.user_id)
             end
           else
             record = UserRecord.create({
-                user_id: setting.user_id,
-                day: date,
-                steps: info[:step].to_s.to_i,
-                distance: info[:dist].to_s.to_f
-                              })
+                                           user_id: setting.user_id,
+                                           day: date,
+                                           steps: info[:step].to_s.to_i,
+                                           distance: info[:dist].to_s.to_f
+                                       })
             UserStatus.update_user_status(setting.user_id)
           end
           p record
@@ -47,10 +47,10 @@ class FitbitImport
   end
 
   def parse_date(day_str)
-   case day_str
-     when 'today' then Date.today
-     when 'yesterday' then Date.yesterday
-     else Date.parse(day)
-   end
+    case day_str
+      when 'today' then Date.today
+      when 'yesterday' then Date.yesterday
+      else Date.parse(day)
+    end
   end
 end
