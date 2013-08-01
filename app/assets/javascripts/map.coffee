@@ -8,7 +8,8 @@ Map = (options) ->
     $.get "/user_statuses?reverse_mode=#{that.options.reverse_mode}", (data) ->
       mapOptions = {zoom: 12, mapTypeId: google.maps.MapTypeId.ROADMAP}
 
-      mapOptions.center = LL(data[0].lat, data[0].lon)
+      if data.length > 0
+        mapOptions.center = LL(data[0].lat, data[0].lon)
       for user in data
         if user.id == that.options.user_id
           mapOptions.center = LL(user.lat, user.lon)
