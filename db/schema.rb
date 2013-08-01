@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130630052838) do
+ActiveRecord::Schema.define(version: 20130801064743) do
 
   create_table "locations", force: true do |t|
     t.integer "number"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20130630052838) do
     t.string   "fitbit_user_id"
     t.string   "fitbit_token"
     t.string   "fitbit_secret"
+    t.integer  "reverse_mode"
   end
 
   create_table "user_statuses", force: true do |t|

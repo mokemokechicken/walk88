@@ -3,6 +3,8 @@
   = link_to '歩いた記録を追加する', {:controller => 'user_records', :action => 'new'}, :class => 'button icon add'
   %div(style="float:right;")
     %span
+      = link_to '順路版を表示', '/?reverse_mode=0', :class => 'button'
+      = link_to '逆路版を表示', '/?reverse_mode=1', :class => 'button'
       %a(class="button icon add" id="kml_add") お遍路を表示
   %div(style="clear:right")
 %br
@@ -41,6 +43,7 @@
   Map({
   canvas: '#map',
   kml: 'kml',
+  reverse_mode: #{@reverse_mode},
   kml_url: "https://maps.google.co.jp/maps/ms?ie=UTF8&authuser=0&msa=0&output=kml&msid=205328521189507590527.0004df7bb3d55d4369ee1"
   }).init()
 
