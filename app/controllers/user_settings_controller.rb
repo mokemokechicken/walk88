@@ -32,6 +32,7 @@ class UserSettingsController < ApplicationController
   def update
     respond_to do |format|
       if @user_setting.update(user_setting_params)
+        UserStatus.update_user_status(@user_setting.user_id)
         format.html { redirect_to @user_setting, notice: '保存しました' }
         format.json { head :no_content }
       else
@@ -60,6 +61,6 @@ class UserSettingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_setting_params
-      params.require(:user_setting).permit(:step_dist)
+      params.require(:user_setting).permit(:step_dist, :reverse_mode)
     end
 end
