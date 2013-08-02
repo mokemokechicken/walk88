@@ -14,5 +14,7 @@ class HomeController < ApplicationController
         where('user_statuses.total_distance > 0').
         where('user_settings.reverse_mode = ?', @reverse_mode).
         order('user_statuses.total_distance desc')
+
+    @overview_polyline = LocationRoute.overview_polyline
   end
 end

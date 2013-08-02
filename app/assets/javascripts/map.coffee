@@ -15,7 +15,7 @@ Map = (options) ->
           mapOptions.center = LL(user.lat, user.lon)
 
       map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions);
-      draw_routes(map)
+      draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
         MK
           position: LL(s.lat, s.lon)
@@ -65,6 +65,14 @@ Map = (options) ->
           directions: result
           preserveViewport: true
           # suppressMarkers: true
+
+  # ルート
+  draw_routes_polyline = (map, polyline) ->
+    new google.maps.Polyline
+      map: map
+      path: google.maps.geometry.encoding.decodePath(polyline)
+      strokeColor: '#3333cc'
+      strokeOpacity: 0.5
 
 
   return that
