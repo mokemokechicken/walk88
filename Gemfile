@@ -19,7 +19,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'haml-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer', :platforms => :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 1.2'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', :require => false
+  gem 'sdoc', require: false
 end
 
 # Use ActiveModel has_secure_password
@@ -47,7 +47,7 @@ gem 'unicorn'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
+gem 'devise', github: 'plataformatec/devise', branch: 'rails4'
 #omniauth
 gem 'omniauth-facebook'
 # gem 'omniauth-twitter'
@@ -58,4 +58,4 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'fitgem'
 
-gem 'whenever', :require => false
+gem 'whenever', require: false
