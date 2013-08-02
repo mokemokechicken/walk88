@@ -52,6 +52,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    colorize (0.5.8)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -177,6 +178,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-session_store
   coffee-rails (~> 4.0.0)
+  colorize
   devise!
   fitgem
   haml-rails
