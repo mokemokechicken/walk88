@@ -61,3 +61,4 @@ gem 'fitgem'
 gem 'whenever', require: false
 
 gem 'colorize'
+gem 'polylines'

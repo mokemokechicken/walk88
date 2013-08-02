@@ -93,5 +93,91 @@ namespace :walk88 do
         end
       end
     end
+
+    namespace :kml do
+      desc "Create kml file from locations and routes"
+      task create: :environment do
+        print "Creating kml file... "
+
+        locations = {}
+        Location.all.each do |l|
+          locations[l.id] = l
+        end
+
+        routes = {}
+        LocationRoute.all.each do |r|
+          routes[r.start_id] = r
+        end
+
+        out = File.join(Rails.root, 'public', 'assets', 'routes.kml')
+
+        xml = Builder::XmlMarkup.new(:target => File.open(out, 'w'), :indent => 2)
+        xml.instruct! :xml, :version => '1.0', :encoding => 'UTF-8'
+        xml.kml :xmlns => 'http://earth.google.com/kml/2.2' do
+          xml.Document do
+            xml.name 'walk88 kml'
+            xml.description ''
+
+            # style for location
+            xml.Style :id => 'location' do
+              xml.IconStyle do
+                xml.Icon do
+                  xml.href 'http://maps.google.com/mapfiles/kml/paddle/red-circle_maps.png'
+                end
+              end
+            end
+
+            # style for route
+            xml.Style :id => 'route' do
+              xml.LineStyle do
+                xml.color '80FF7300'
+                xml.width 5
+              end
+            end
+
+            # locations
+            locations.each_value do |l|
+              xml.Placemark do
+                xml.name l.name
+                xml.description ''
+                xml.address l.address
+                xml.styleUrl '#location'
+                xml.Point do
+                  xml.coordinates "#{l.lon},#{l.lat}"
+                end
+              end
+            end
+
+            # routes
+            routes.each_value do |r|
+              ls = locations[r.start_id]
+              le = locations[r.end_id]
+
+              xml.Placemark do
+                xml.name "#{ls.number}:#{ls.name} - #{le.number}:#{le.name}"
+                xml.description ''
+                xml.styleUrl '#route'
+                xml.LineString do
+                  arr = []
+                  arr << "#{ls.lon},#{ls.lat}"
+                  unless r.polyline == ''
+                    Polylines::Decoder.decode_polyline(r.polyline).each do |p|
+                      arr << "#{p[1]},#{p[0]}"
+                    end
+                  end
+                  arr << "#{le.lon},#{le.lat}"
+
+                  xml.tessellate 1
+                  xml.coordinates arr.join(' ')
+                end
+              end
+            end
+          end
+        end
+
+        puts "done".green
+      end
+
+    end
   end
 end
