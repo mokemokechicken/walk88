@@ -59,3 +59,5 @@ gem 'will_paginate', '~> 3.0'
 gem 'fitgem'
 
 gem 'whenever', require: false
+
+gem 'colorize'
