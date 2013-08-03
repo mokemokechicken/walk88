@@ -15,12 +15,10 @@ Database initialization
 -----------------------
 
     bundle exec rake db:migrate
-    bundle exec rails runner 'Import88Data.execute'
+    bundle exec rake walk88:map:import
 
 Memo
 ------
 
     bundle exec rake assets:precompile
     bundle exec rails server -p 2000 -e production
-
-
