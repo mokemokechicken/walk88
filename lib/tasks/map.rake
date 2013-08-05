@@ -92,6 +92,41 @@ namespace :walk88 do
           points.shift
         end
       end
+
+      desc "Calculate distance between each 2 points"
+      task distance: :environment do
+        puts "Calculating distance data..."
+
+        locations = {}
+        Location.all.each do |l|
+          locations[l.id] = l
+        end
+
+        total = 0
+        LocationRoute.all.each do |r|
+          ls = locations[r.start_id]
+          le = locations[r.end_id]
+          polyline = []
+          polyline << [ls.lat, ls.lon]
+          polyline += Polylines::Decoder.decode_polyline r.polyline if r.polyline != ''
+          polyline << [le.lat, le.lon]
+
+          ps = polyline.shift
+          dist = 0
+          polyline.each do |p|
+            dist += Geocoder::Calculations.distance_between(ps, p, units: :km)
+            ps = p
+          end
+          total += dist
+
+          ls.next_distance = dist.round(1)
+          le.total_distance = total.round(1)
+          ls.save
+          le.save
+          print "#{ls.id}:#{ls.name} - #{le.id}:#{le.name} = #{dist.round(1)}km #{total.round(1)}km "
+          puts "done".green
+        end
+      end
     end
 
     namespace :kml do
