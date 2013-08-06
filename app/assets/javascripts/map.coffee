@@ -23,6 +23,7 @@ Map = (options) ->
           title: s.nickname
           icon: s.image
           zIndex: 10000-i
+          animation: google.maps.Animation.DROP
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
