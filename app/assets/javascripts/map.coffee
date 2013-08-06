@@ -15,6 +15,7 @@ Map = (options) ->
       for user in data
         if user.id == that.options.user_id
           mapOptions.center = LL(user.lat, user.lon)
+          me = user
 
       map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
       draw_routes_polyline(map, $(options.polyline).text())
@@ -30,14 +31,15 @@ Map = (options) ->
               animation: google.maps.Animation.DROP
           , i * 100
 
-      panoramaOptions =
-        position: LL(user.lat, user.lon)
-        pov:
-          heading: user.bearing
-          pitch: 0
-          zoom: 1
+      if me
+        panoramaOptions =
+          position: LL(me.lat, me.lon)
+          pov:
+            heading: if me.bearing then me.bearing else 0
+            pitch: 0
+            zoom: 1
 
-      pano = new google.maps.StreetViewPanorama($('#panorama')[0], panoramaOptions)
+        pano = new google.maps.StreetViewPanorama($('#panorama').css('height', 200)[0], panoramaOptions)
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
