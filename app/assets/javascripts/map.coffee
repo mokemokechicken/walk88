@@ -17,15 +17,16 @@ Map = (options) ->
       map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions);
       draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
-        setTimeout ->
-          MK
-            position: LL(s.lat, s.lon)
-            map: map
-            title: s.nickname
-            icon: s.image
-            zIndex: 10000-i
-            animation: google.maps.Animation.DROP
-        , i * 100
+        do (s, i) ->
+          setTimeout ->
+            MK
+              position: LL(s.lat, s.lon)
+              map: map
+              title: s.nickname
+              icon: s.image
+              zIndex: 10000-i
+              animation: google.maps.Animation.DROP
+          , i * 100
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
