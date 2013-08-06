@@ -39,6 +39,8 @@
             歩
           %td= status.last_walk_day
 
+%span#polyline(style="display: none")= @overview_polyline
+
 :coffee
   Map
     canvas: '#map'
@@ -46,6 +48,7 @@
     reverse_mode: #{@reverse_mode}
     user_id: #{@user.id}
     kml_url: 'https://maps.google.co.jp/maps/ms?ie=UTF8&authuser=0&msa=0&output=kml&msid=201283493308230007513.0004e269434345fcaa720'
+    polyline: '#polyline'
   .init()
 
 - content_for :pre_head do

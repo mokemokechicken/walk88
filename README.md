@@ -17,6 +17,15 @@ Database initialization
     bundle exec rake db:migrate
     bundle exec rake walk88:map:import
 
+Create direction data
+
+    bundle exec rake walk88:map:direction:create
+
+Calculate distance info from direction data
+
+    bundle exec rake walk88:map:direction:distance
+
+
 Memo
 ------
 
