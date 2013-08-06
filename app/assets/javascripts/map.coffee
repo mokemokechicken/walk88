@@ -12,34 +12,60 @@ Map = (options) ->
 
       if data.length > 0
         mapOptions.center = LL(data[0].lat, data[0].lon)
+        vuser = data[0]
+
       for user in data
         if user.id == that.options.user_id
           mapOptions.center = LL(user.lat, user.lon)
-          me = user
+          vuser = user
 
       map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
       draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
         do (s, i) ->
           setTimeout ->
-            MK
+            marker = MK
               position: LL(s.lat, s.lon)
               map: map
               title: s.nickname
               icon: s.image
               zIndex: 10000-i
               animation: google.maps.Animation.DROP
+
+            google.maps.event.addListener marker, 'click', (event) ->
+              that.map.setCenter LL(s.lat, s.lon)
+              that.sv.getPanoramaByLocation LL(s.lat, s.lon), 100, (data, stat) ->
+                if stat is google.maps.StreetViewStatus.OK
+                  that.pano.setPano data.location.pano
+                  that.pano.setPov
+                    heading: if s.bearing then s.bearing else 0
+                    pitch: 0
+                    zoom: 1
+                  that.pano.setVisible true
+                else
+                  that.pano.setVisible false
+              that.pano.setPosition LL(s.lat, s.lon)
           , i * 100
 
-      if me
-        panoramaOptions =
-          position: LL(me.lat, me.lon)
-          pov:
-            heading: if me.bearing then me.bearing else 0
+      panoramaOptions =
+        position: LL(vuser.lat, vuser.lon)
+        pov:
+          heading: if vuser.bearing then vuser.bearing else 0
+          pitch: 0
+          zoom: 1
+
+      that.pano = new google.maps.StreetViewPanorama($('#panorama')[0])
+      that.sv = new google.maps.StreetViewService()
+      that.sv.getPanoramaByLocation LL(vuser.lat, vuser.lon), 100, (data, stat) ->
+        if stat is google.maps.StreetViewStatus.OK
+          that.pano.setPano data.location.pano
+          that.pano.setPov
+            heading: if vuser.bearing then vuser.bearing else 0
             pitch: 0
             zoom: 1
-
-        pano = new google.maps.StreetViewPanorama($('#panorama').css('height', 200)[0], panoramaOptions)
+          that.pano.setVisible true
+        else
+          that.pano.setVisible false
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
