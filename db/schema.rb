@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802211500) do
+ActiveRecord::Schema.define(version: 20130806163200) do
 
   create_table "location_routes", force: true do |t|
     t.integer "start_id"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20130802211500) do
     t.date     "last_walk_day"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "bearing"
   end
 
   add_index "user_statuses", ["user_id"], name: "index_user_statuses_on_user_id", unique: true

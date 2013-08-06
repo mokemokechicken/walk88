@@ -6,7 +6,9 @@ Map = (options) ->
     console.log(that.options)
     regist_event_handler_for_kml(options.kml, options.kml_url) if options.kml && options.kml_url
     $.get "/user_statuses?reverse_mode=#{that.options.reverse_mode}", (data) ->
-      mapOptions = {zoom: 12, mapTypeId: google.maps.MapTypeId.ROADMAP}
+      mapOptions =
+        zoom: 12
+        mapTypeId: google.maps.MapTypeId.ROADMAP
 
       if data.length > 0
         mapOptions.center = LL(data[0].lat, data[0].lon)
@@ -14,7 +16,7 @@ Map = (options) ->
         if user.id == that.options.user_id
           mapOptions.center = LL(user.lat, user.lon)
 
-      map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions);
+      map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
       draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
         do (s, i) ->
@@ -27,6 +29,15 @@ Map = (options) ->
               zIndex: 10000-i
               animation: google.maps.Animation.DROP
           , i * 100
+
+      panoramaOptions =
+        position: LL(user.lat, user.lon)
+        pov:
+          heading: user.bearing
+          pitch: 0
+          zoom: 1
+
+      pano = new google.maps.StreetViewPanorama($('#panorama')[0], panoramaOptions)
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
