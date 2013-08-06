@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801064743) do
+ActiveRecord::Schema.define(version: 20130802211500) do
+
+  create_table "location_routes", force: true do |t|
+    t.integer "start_id"
+    t.integer "end_id"
+    t.integer "distance"
+    t.string  "polyline"
+  end
+
+  add_index "location_routes", ["start_id", "end_id"], name: "index_location_routes_on_start_id_and_end_id", unique: true
 
   create_table "locations", force: true do |t|
     t.integer "number"

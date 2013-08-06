@@ -15,12 +15,19 @@ Database initialization
 -----------------------
 
     bundle exec rake db:migrate
-    bundle exec rails runner 'Import88Data.execute'
+    bundle exec rake walk88:map:import
+
+Create direction data
+
+    bundle exec rake walk88:map:direction:create
+
+Calculate distance info from direction data
+
+    bundle exec rake walk88:map:direction:distance
+
 
 Memo
 ------
 
     bundle exec rake assets:precompile
     bundle exec rails server -p 2000 -e production
-
-
