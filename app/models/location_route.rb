@@ -1,5 +1,3 @@
-require 'polylines'
-
 class LocationRoute < ActiveRecord::Base
   def self.overview_polyline
     locations = Location.order('number').all
