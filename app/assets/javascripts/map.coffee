@@ -10,14 +10,12 @@ Map = (options) ->
         zoom: 12
         mapTypeId: google.maps.MapTypeId.ROADMAP
 
-      if data.length > 0
-        mapOptions.center = LL(data[0].lat, data[0].lon)
-        vuser = data[0]
+      vuser = data[0] if data.length > 0
 
+      that.users = []
       for user in data
-        if user.id == that.options.user_id
-          mapOptions.center = LL(user.lat, user.lon)
-          vuser = user
+        that.users[user.id] = user
+        vuser = user if user.id is that.options.user_id
 
       h = $('body > .container-fluid').height() - $('#menu').height()
       $('#listview').css('height', h)
@@ -38,39 +36,12 @@ Map = (options) ->
               animation: google.maps.Animation.DROP
 
             google.maps.event.addListener marker, 'click', (event) ->
-              that.map.setCenter LL(s.lat, s.lon)
-              that.sv.getPanoramaByLocation LL(s.lat, s.lon), 100, (data, stat) ->
-                if stat is google.maps.StreetViewStatus.OK
-                  that.pano.setPano data.location.pano
-                  that.pano.setPov
-                    heading: if s.bearing then s.bearing else 0
-                    pitch: 0
-                    zoom: 1
-                  that.pano.setVisible true
-                else
-                  that.pano.setVisible false
-              that.pano.setPosition LL(s.lat, s.lon)
+              that.setUserMap s
           , i * 100
-
-      panoramaOptions =
-        position: LL(vuser.lat, vuser.lon)
-        pov:
-          heading: if vuser.bearing then vuser.bearing else 0
-          pitch: 0
-          zoom: 1
 
       that.pano = new google.maps.StreetViewPanorama($('#panorama')[0])
       that.sv = new google.maps.StreetViewService()
-      that.sv.getPanoramaByLocation LL(vuser.lat, vuser.lon), 100, (data, stat) ->
-        if stat is google.maps.StreetViewStatus.OK
-          that.pano.setPano data.location.pano
-          that.pano.setPov
-            heading: if vuser.bearing then vuser.bearing else 0
-            pitch: 0
-            zoom: 1
-          that.pano.setVisible true
-        else
-          that.pano.setVisible false
+      that.setUserMap vuser
 
       $(window).resize ->
         h = $('body > .container-fluid').height() - $('#menu').height()
@@ -81,6 +52,29 @@ Map = (options) ->
         else
           $('#map').css('height', h - $('#panorama').height())
         google.maps.event.trigger that.map, 'resize'
+
+      $('#listview').on 'mouseover', 'img', ->
+        uid = $(@).parents('tr').data('user-id')
+        that.setUserMap that.users[uid]
+
+  that.setUserMap = (user) ->
+    that.sv.getPanoramaByLocation LL(user.lat, user.lon), 100, (data, stat) ->
+      if stat is google.maps.StreetViewStatus.OK
+        that.pano.setPosition LL(user.lat, user.lon)
+        that.pano.setPov
+          heading: if user.bearing then user.bearing else 0
+          pitch: 0
+          zoom: 1
+        $('#panorama').show()
+        that.pano.setVisible true
+        $('#map').css('height', $('#mapview').height() - $('#panorama').height())
+        google.maps.event.trigger that.map, 'resize'
+      else
+        $('#panorama').hide()
+        that.pano.setVisible false
+        $('#map').css('height', $('#mapview').height())
+        google.maps.event.trigger that.map, 'resize'
+      that.map.setCenter LL(user.lat, user.lon)
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
