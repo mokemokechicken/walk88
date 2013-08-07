@@ -32,7 +32,8 @@
   margin-right: auto;
   max-width: 900px;
   min-height: 400px;
-  background: url(ohenro.jpg) no-repeat;
+  background-image: image-url("ohenro.jpg");
+  background-repeat: no-repeat;
   background-position: bottom;
   color: white;
 }
