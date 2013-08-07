@@ -28,21 +28,26 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.brand(href="#") Walk88
+          .brand Walk88
           .container.nav-collapse
             %ul.nav
-              / %li= link_to root_path, {:class=>'btn btn-primary'} do
-              /   %i{:class => "icon-home"}
-              /   %span
-              /     Dashboard
-              %li= link_to "Dashboard", root_path
-              %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
+              %li
+                = link_to root_path do
+                  %i.icon-dashboard
+                  Dashboard
             %ul.nav.pull-right
-              %li= link_to 'ユーザ設定', {:controller => 'user_settings', :action => 'edit', :id => @user.id}, :class => 'button icon settings' if @user
-              %li= link_to 'Logout', destroy_user_session_path, :class => 'button' if @user
+              - if @user
+                %li
+                  = link_to url_for(:controller => 'user_settings', :action => 'edit', :id => @user.id) do
+                    %i.icon-cog
+                    ユーザ設定
 
-    .container-fluid
+                %li
+                  = link_to destroy_user_session_path, :class => 'button' do
+                    %i.icon-signout
+                    ログアウト
+
+    .container-fluid#content
       = yield
 
     .footer

@@ -10,8 +10,12 @@
   z-index: 20000;
 }
 
+#menu > div {
+  margin-bottom: 1em;
+}
+
 #map {
-  height: 400px;
+  width: 100%;
 }
 
 #map img {
@@ -35,4 +39,38 @@
 
 .hero-unit h1 {
   margin-top: 200px;
+}
+
+#content {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  bottom: 2em;
+}
+
+#listview {
+  overflow: scroll;
+}
+
+.position span {
+  font-size: .9em;
+}
+
+.status {
+  text-align: right;
+  padding-right: 1em;
+  padding-left: .5em;
+  white-space: nowrap;
+  font-size: .9em;
+  color: #a0a0a0;
+}
+
+#listview td img {
+  float: left;
+  padding-right: .5em;
+}
+
+td.number {
+  text-align: right;
 }

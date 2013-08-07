@@ -19,6 +19,11 @@ Map = (options) ->
           mapOptions.center = LL(user.lat, user.lon)
           vuser = user
 
+      h = $('body > .container-fluid').height() - $('#menu').height()
+      $('#listview').css('height', h)
+      $('#mapview').css('height', h)
+      $('#map').css('height', h - $('#panorama').height())
+
       map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
       draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
