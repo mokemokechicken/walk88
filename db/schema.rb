@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801064743) do
+ActiveRecord::Schema.define(version: 20130806163200) do
+
+  create_table "location_routes", force: true do |t|
+    t.integer "start_id"
+    t.integer "end_id"
+    t.integer "distance"
+    t.string  "polyline"
+  end
+
+  add_index "location_routes", ["start_id", "end_id"], name: "index_location_routes_on_start_id_and_end_id", unique: true
 
   create_table "locations", force: true do |t|
     t.integer "number"
@@ -59,6 +68,7 @@ ActiveRecord::Schema.define(version: 20130801064743) do
     t.date     "last_walk_day"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "bearing"
   end
 
   add_index "user_statuses", ["user_id"], name: "index_user_statuses_on_user_id", unique: true

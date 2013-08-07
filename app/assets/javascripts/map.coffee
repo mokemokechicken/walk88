@@ -6,23 +6,75 @@ Map = (options) ->
     console.log(that.options)
     regist_event_handler_for_kml(options.kml, options.kml_url) if options.kml && options.kml_url
     $.get "/user_statuses?reverse_mode=#{that.options.reverse_mode}", (data) ->
-      mapOptions = {zoom: 12, mapTypeId: google.maps.MapTypeId.ROADMAP}
+      mapOptions =
+        zoom: 12
+        mapTypeId: google.maps.MapTypeId.ROADMAP
 
-      if data.length > 0
-        mapOptions.center = LL(data[0].lat, data[0].lon)
+      vuser = data[0] if data.length > 0
+
+      that.users = []
       for user in data
-        if user.id == that.options.user_id
-          mapOptions.center = LL(user.lat, user.lon)
+        that.users[user.id] = user
+        vuser = user if user.id is that.options.user_id
 
-      map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions);
-      draw_routes(map)
+      h = $('body > .container-fluid').height() - $('#menu').height()
+      $('#listview').css('height', h)
+      $('#mapview').css('height', h)
+      $('#map').css('height', h - $('#panorama').height())
+
+      map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
+      draw_routes_polyline(map, $(options.polyline).text())
       for s, i in data
-        MK
-          position: LL(s.lat, s.lon)
-          map: map
-          title: s.nickname
-          icon: s.image
-          zIndex: 10000-i
+        do (s, i) ->
+          setTimeout ->
+            marker = MK
+              position: LL(s.lat, s.lon)
+              map: map
+              title: s.nickname
+              icon: s.image
+              zIndex: 10000-i
+              animation: google.maps.Animation.DROP
+
+            google.maps.event.addListener marker, 'click', (event) ->
+              that.setUserMap s
+          , i * 100
+
+      that.pano = new google.maps.StreetViewPanorama($('#panorama')[0])
+      that.sv = new google.maps.StreetViewService()
+      that.setUserMap vuser
+
+      $(window).resize ->
+        h = $('body > .container-fluid').height() - $('#menu').height()
+        $('#listview').css('height', h)
+        $('#mapview').css('height', h)
+        if $('#panorama').css('display') is 'none'
+          $('#map').css('height', h)
+        else
+          $('#map').css('height', h - $('#panorama').height())
+        google.maps.event.trigger that.map, 'resize'
+
+      $('#listview').on 'mouseover', 'img', ->
+        uid = $(@).parents('tr').data('user-id')
+        that.setUserMap that.users[uid]
+
+  that.setUserMap = (user) ->
+    that.sv.getPanoramaByLocation LL(user.lat, user.lon), 100, (data, stat) ->
+      if stat is google.maps.StreetViewStatus.OK
+        that.pano.setPosition LL(user.lat, user.lon)
+        that.pano.setPov
+          heading: if user.bearing then user.bearing else 0
+          pitch: 0
+          zoom: 1
+        $('#panorama').show()
+        that.pano.setVisible true
+        $('#map').css('height', $('#mapview').height() - $('#panorama').height())
+        google.maps.event.trigger that.map, 'resize'
+      else
+        $('#panorama').hide()
+        that.pano.setVisible false
+        $('#map').css('height', $('#mapview').height())
+        google.maps.event.trigger that.map, 'resize'
+      that.map.setCenter LL(user.lat, user.lon)
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
@@ -65,6 +117,14 @@ Map = (options) ->
           directions: result
           preserveViewport: true
           # suppressMarkers: true
+
+  # ルート
+  draw_routes_polyline = (map, polyline) ->
+    new google.maps.Polyline
+      map: map
+      path: google.maps.geometry.encoding.decodePath(polyline)
+      strokeColor: '#3333cc'
+      strokeOpacity: 0.5
 
 
   return that

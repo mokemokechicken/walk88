@@ -2,33 +2,76 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here:
 
-table.dashboard {
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  border: blue solid thin;
-  border-collapse: collapse;
-  th, tr, td {
-    text-align: center;
-    border: blue solid thin;
-  }
-}
-
-div.main {
-  width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.right {
-  margin-right: 0;
-  margin-left: auto;
-}
-
 #kml_popup {
   width: 300px;
   height: 200px;
   position: absolute;
   display: none;
   z-index: 20000;
+}
+
+#menu > div {
+  margin-bottom: 1em;
+}
+
+#map {
+  width: 100%;
+}
+
+#map img {
+  max-width: none;
+}
+
+#panorama {
+  height: 200px;
+  text-align: center;
+}
+
+.hero-unit {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
+  min-height: 400px;
+  background-image: image-url("ohenro.jpg");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  color: white;
+}
+
+.hero-unit h1 {
+  margin-top: 200px;
+}
+
+#content {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  bottom: 2em;
+}
+
+#listview {
+  overflow: scroll;
+}
+
+.position span {
+  font-size: .9em;
+}
+
+.status {
+  text-align: right;
+  padding-right: 1em;
+  padding-left: .5em;
+  white-space: nowrap;
+  font-size: .9em;
+  color: #a0a0a0;
+}
+
+#listview td img {
+  float: left;
+  padding-right: .5em;
+}
+
+td.number {
+  text-align: right;
 }

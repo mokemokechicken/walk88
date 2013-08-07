@@ -1,52 +1,59 @@
-%h1 Dashboard
-%div
-  = link_to '歩いた記録を追加する', {:controller => 'user_records', :action => 'new'}, :class => 'button icon add'
-  %div(style="float:right;")
-    %span
-      = link_to '順路版を表示', '/?reverse_mode=0', :class => 'button'
-      = link_to '逆路版を表示', '/?reverse_mode=1', :class => 'button'
-      %a(class="button icon add" id="kml_add") お遍路を表示
-  %div(style="clear:right")
-%br
+.row-fluid
+  .span12#menu
+    %h1 Dashboard
+    %div
+      = link_to url_for(:controller => 'user_records', :action => 'new'), :class => 'btn btn-primary' do
+        %i.icon-pencil
+        歩いた記録を追加する
 
-#map(style="height: 400px")
-%br
-%div
-  %table.dashboard
-    %thead
-      %tr
-        %td 順位
-        %td 人
-        %td 現在地
-        %td 累計距離
-        %td 累計歩数
-        %td 登録最終日
-    %tbody
-      - @current_statuses.each_with_index do |status, i|
-        %tr
-          %td= i+1
-          %td= link_to image_tag(status.user.image, :alt => status.user.nickname), user_records_of_user_path(:user_id => status.user_id)
-          %td
-            = status.location.number
-            \: #{status.location.name}
-            %br
-            次の #{status.next_location.name} まで あと #{sprintf('%3.2f', status.next_distance)} Km
-          %td
-            = sprintf('%3.2f', status.total_distance)
-            Km
-          %td
-            = status.total_step
-            歩
-          %td= status.last_walk_day
+      %div(style="float:right;")
+        %span
+          = link_to '/?reverse_mode=0', :class => 'btn' do
+            %i.icon-arrow-down
+            順路版を表示
+          = link_to '/?reverse_mode=1', :class => 'btn' do
+            %i.icon-arrow-up
+            逆路版を表示
+          %a.btn#kml_add
+            %i.icon-map-marker
+            お遍路を表示
+      %div(style="clear:right")
+
+.row-fluid
+  .span4#listview
+    %table.table.table-striped
+      %thead
+      %tbody
+        - @current_statuses.each_with_index do |status, i|
+          %tr(data-user-id="#{status.user.id}")
+            %td.number= i+1
+            %td
+              = link_to image_tag(status.user.image, :alt => status.user.nickname), user_records_of_user_path(:user_id => status.user_id)
+              %div.position
+                #{status.location.number}:#{status.location.name}
+                %i.icon-arrow-right
+                #{status.next_location.number}:#{status.next_location.name}
+                %span (あと #{sprintf('%3.2f', status.next_distance)}Km)
+              %div.status 累計: #{sprintf('%.1f', status.total_distance)}km, #{status.total_step}歩
+              %div.status
+                %i.icon-calendar
+                = status.last_walk_day
+  .span8#mapview
+    #map
+    #panorama この場所はストリートビューに対応していません
+
+%span#polyline(style="display: none")= @overview_polyline
 
 :coffee
-  Map
-    canvas: '#map'
-    kml: 'kml'
-    reverse_mode: #{@reverse_mode}
-    user_id: #{@user.id}
-    kml_url: 'https://maps.google.co.jp/maps/ms?ie=UTF8&authuser=0&msa=0&output=kml&msid=201283493308230007513.0004e269434345fcaa720'
-  .init()
+  $ ->
+    Map
+      canvas: '#map'
+      kml: 'kml'
+      reverse_mode: #{@reverse_mode}
+      user_id: #{@user.id}
+      kml_url: 'https://maps.google.co.jp/maps/ms?ie=UTF8&authuser=0&msa=0&output=kml&msid=201283493308230007513.0004e269434345fcaa720'
+      polyline: '#polyline'
+    .init()
 
 - content_for :pre_head do
   = google_javascript_tag

@@ -31,11 +31,13 @@ class UserStatus < ActiveRecord::Base
     unless setting.is_reverse_mode?
       cl = Location.current_location(total_distance)
       nl = Location.find_by(number: cl.number+1)
+      rt = LocationRoute.find_by(start_id: cl.number)
       cl_total_distance = cl.total_distance
       next_distance_from_cl_to_nl = cl.next_distance
     else
       cl = Location.reverse_current_location(total_distance)
       nl = Location.find_by(number: cl.number-1)
+      rt = LocationRoute.find_by(end_id: cl.number)
       cl_total_distance = Location.max_total_distance - cl.total_distance
       next_distance_from_cl_to_nl = nl.next_distance
     end
@@ -43,10 +45,27 @@ class UserStatus < ActiveRecord::Base
     self.location_id = cl.id
     if nl
       self.next_location_id = nl.id
-      self.next_distance = next_distance_from_cl_to_nl - (total_distance - cl_total_distance).abs
-      progress = 1 - (self.next_distance / next_distance_from_cl_to_nl)
-      self.lat = cl.lat * (1-progress) + nl.lat * progress
-      self.lon = cl.lon * (1-progress) + nl.lon * progress
+      passed = total_distance - cl_total_distance
+      self.next_distance = next_distance_from_cl_to_nl - passed
+
+      lines = []
+      lines += Polylines::Decoder.decode_polyline rt.polyline if rt.polyline != ''
+      lines.reverse! if setting.is_reverse_mode?
+      lines.unshift [cl.lat, cl.lon]
+      lines.push [nl.lat, nl.lon]
+
+      while true
+        distance = Geocoder::Calculations.distance_between(lines[0], lines[1], units: :km)
+        break if passed <= distance
+        passed -= distance
+        lines.shift
+      end
+
+      progress = 1 - (passed / distance)
+      self.lat = lines[0][0] * (1 - progress) + lines[1][0] * progress
+      self.lon = lines[0][1] * (1 - progress) + lines[1][1] * progress
+
+      self.bearing = Geocoder::Calculations.bearing_between(lines[0], lines[1])
     end
     save
     self

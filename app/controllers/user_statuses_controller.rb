@@ -10,6 +10,7 @@ class UserStatusesController < ApplicationController
           id: us.user_id,
           lat: us.lat,
           lon: us.lon,
+          bearing: us.bearing,
           nickname: us.user.nickname,
           image: us.user.image,
           location_id: us.location_id,
