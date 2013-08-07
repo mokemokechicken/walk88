@@ -1,3 +1,8 @@
-%br
-%div{:style => "text-align: center;"}
-  = link_to 'Facebook Login', user_omniauth_authorize_path(:provider => 'facebook'), :class => 'button big'
+.row-fluid
+  .hero-unit
+    %h1 Walk88
+    %p Fitbitを身につけて、四国八十八箇所巡りを今すぐ体験しよう
+    %p
+      = link_to user_omniauth_authorize_path(:provider => 'facebook'), :class => 'btn btn-primary btn-large' do
+        %i.icon-facebook-sign
+        Facebook Login
