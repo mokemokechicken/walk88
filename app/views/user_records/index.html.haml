@@ -1,32 +1,43 @@
-%h1
-  = image_tag(@user.image, :alt => @user.nickname)
-  = @user.nickname
-  の記録一覧
-%table.record
-  %thead
-    %tr
-      %th 日付
-      %th 歩数
-      %th 距離(Km)
+.row-fluid
+  .offset2.span8
+    %h1
+      = image_tag(@user.image, :alt => @user.nickname)
+      = @user.nickname
+      の記録一覧
+
+.row-fluid
+  .offset2.span8.center
+    %table.table.table-striped
+      %thead
+        %tr
+          %th 日付
+          %th 歩数
+          %th 距離(Km)
+          - if @owner
+            %th
+      %tbody
+        - @user_records.each do |user_record|
+          %tr
+            %td= user_record.day
+            %td{:id => "steps_#{user_record.id}"}= user_record.steps
+            %td{:id => "distance_#{user_record.id}"}= sprintf('%3.2f', user_record.distance.to_f)
+            - if @owner
+              %td
+                = link_to edit_user_record_path(user_record), :class => 'btn' do
+                  %i.icon-edit
+                  編集
+                = link_to user_record, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do
+                  %i.icon-remove
+                  削除
+                - if @user_setting.exist_fitbit_token?
+                  = link_to '#1', onclick: "Fitbit().update_by_fitbit('#{user_record.id}')", :class => 'btn btn-success' do
+                    %i.icon-refresh
+                    Fitbitと同期
+
+    .center
+      = will_paginate @user_records
+    .button-group
       - if @owner
-        %th
-        %th
-        - if @user_setting.exist_fitbit_token?
-          %th
-  %tbody
-    - @user_records.each do |user_record|
-      %tr
-        %td= user_record.day
-        %td{:id => "steps_#{user_record.id}"}= user_record.steps
-        %td{:id => "distance_#{user_record.id}"}= sprintf('%3.2f', user_record.distance.to_f)
-        - if @owner
-          %td= link_to '編集', edit_user_record_path(user_record), :class => 'button icon edit'
-          %td= link_to '削除', user_record, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button danger icon remove'
-          - if @user_setting.exist_fitbit_token?
-            %td
-              = link_to 'Fitbitと同期', '#1', onclick: "Fitbit().update_by_fitbit('#{user_record.id}')", :class => 'button icon reload'
-%br
-%div{:style => "text-align: center;"}
-  = will_paginate @user_records
-.button-group
-  = link_to '追加入力', new_user_record_path, :class => 'button icon add' if @owner
+        = link_to new_user_record_path, :class => 'btn btn-primary' do
+          %i.icon-add
+          追加入力
