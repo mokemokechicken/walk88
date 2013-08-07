@@ -72,6 +72,16 @@ Map = (options) ->
         else
           that.pano.setVisible false
 
+      $(window).resize ->
+        h = $('body > .container-fluid').height() - $('#menu').height()
+        $('#listview').css('height', h)
+        $('#mapview').css('height', h)
+        if $('#panorama').css('display') is 'none'
+          $('#map').css('height', h)
+        else
+          $('#map').css('height', h - $('#panorama').height())
+        google.maps.event.trigger that.map, 'resize'
+
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
     new google.maps.KmlLayer
