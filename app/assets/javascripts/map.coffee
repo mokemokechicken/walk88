@@ -17,17 +17,17 @@ Map = (options) ->
         zoom: 12
         mapTypeId: google.maps.MapTypeId.ROADMAP
 
-      vuser = data[0] if data.length > 0
+      that.vuser = data[0] if data.length > 0
 
       that.users = []
       for user in data
         that.users[user.id] = user
-        vuser = user if user.id is that.options.user_id
+        that.vuser = user if user.id is that.options.user_id
 
       that.map = new google.maps.Map $(options.canvas)[0], mapOptions
       that.pano = new google.maps.StreetViewPanorama $('#panorama')[0]
       that.sv = new google.maps.StreetViewService()
-      that.setUserMap vuser if vuser
+      that.setUserMap() if that.vuser
 
       draw_routes_polyline(that.map, $(options.polyline).text())
       for s, i in data
@@ -42,8 +42,11 @@ Map = (options) ->
               animation: google.maps.Animation.DROP
 
             google.maps.event.addListener marker, 'click', (event) ->
-              that.setUserMap s
+              that.vuser = s
+              that.setUserMap()
           , 500 + i * 50
+
+      that.markers = [ MK(), MK() ]
 
       $(window).resize ->
         $('#content').height($('body').height() - $('.navbar').outerHeight(true) - $('.footer').outerHeight(true))
@@ -58,9 +61,15 @@ Map = (options) ->
 
       $('#listview').on 'mouseover', 'img', ->
         uid = $(@).parents('tr').data('user-id')
-        that.setUserMap that.users[uid]
+        that.vuser = that.users[uid]
+        that.setUserMap()
 
-  that.setUserMap = (user) ->
+      $('#show_route').click ->
+        that.show_route = $(@).prop('checked')
+        that.setUserMap()
+
+  that.setUserMap = ->
+    user = that.vuser
     that.sv.getPanoramaByLocation LL(user.lat, user.lon), 100, (data, stat) ->
       if stat is google.maps.StreetViewStatus.OK
         that.pano.setPosition LL(user.lat, user.lon)
@@ -77,7 +86,21 @@ Map = (options) ->
         that.pano.setVisible false
         $('#map').height($('#mapview').height())
         google.maps.event.trigger that.map, 'resize'
-      that.map.panTo LL(user.lat, user.lon)
+
+      if that.show_route
+        that.map.fitBounds(
+          new google.maps.LatLngBounds()
+          .extend(LL(user.location.lat, user.location.lon))
+          .extend(LL(user.next_location.lat, user.next_location.lon))
+        )
+      else
+        that.map.panTo LL(user.lat, user.lon)
+      that.markers[0].setPosition LL(user.location.lat, user.location.lon)
+      that.markers[0].setTitle user.location.name
+      that.markers[1].setPosition LL(user.next_location.lat, user.next_location.lon)
+      that.markers[1].setTitle user.next_location.name
+      that.markers[0].setMap that.map
+      that.markers[1].setMap that.map
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
