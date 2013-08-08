@@ -77,7 +77,7 @@ Map = (options) ->
         that.pano.setVisible false
         $('#map').height($('#mapview').height())
         google.maps.event.trigger that.map, 'resize'
-      that.map.setCenter LL(user.lat, user.lon)
+      that.map.panTo LL(user.lat, user.lon)
 
   that.overlay_kml = (kml_url) ->
     console.log("load KML: " + kml_url)
