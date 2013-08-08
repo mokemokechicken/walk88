@@ -18,13 +18,12 @@
   width: 100%;
 }
 
-#map img {
+#map img, #panorama img {
   max-width: none;
 }
 
 #panorama {
   height: 200px;
-  text-align: center;
 }
 
 .hero-unit {
@@ -43,11 +42,7 @@
 }
 
 #content {
-  position: absolute;
   overflow: hidden;
-  left: 0;
-  right: 0;
-  bottom: 2em;
 }
 
 #listview {

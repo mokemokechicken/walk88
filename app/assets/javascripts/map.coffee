@@ -1,10 +1,17 @@
 KML = "https://maps.google.co.jp/maps/ms?ie=UTF8&authuser=0&msa=0&output=kml&msid=205328521189507590527.0004df7bb3d55d4369ee1&ss=9"
 Map = (options) ->
+  # 最初に各boxをresize
+  $('#content').height($('body').height() - $('.navbar').outerHeight(true) - $('.footer').outerHeight(true))
+  h = $('#content').height() - $('#menu').outerHeight(true)
+  $('#listview').height(h)
+  $('#mapview').height(h)
+  $('#map').height(h - $('#panorama').outerHeight(true))
+
   that = {}
   that.options = options
   that.init = ->
-    console.log(that.options)
-    regist_event_handler_for_kml(options.kml, options.kml_url) if options.kml && options.kml_url
+    console.log that.options
+    regist_event_handler_for_kml(options.kml, options.kml_url) if options.kml and options.kml_url
     $.get "/user_statuses?reverse_mode=#{that.options.reverse_mode}", (data) ->
       mapOptions =
         zoom: 12
@@ -17,40 +24,36 @@ Map = (options) ->
         that.users[user.id] = user
         vuser = user if user.id is that.options.user_id
 
-      h = $('body > .container-fluid').height() - $('#menu').height()
-      $('#listview').css('height', h)
-      $('#mapview').css('height', h)
-      $('#map').css('height', h - $('#panorama').height())
+      that.map = new google.maps.Map $(options.canvas)[0], mapOptions
+      that.pano = new google.maps.StreetViewPanorama $('#panorama')[0]
+      that.sv = new google.maps.StreetViewService()
+      that.setUserMap vuser if vuser
 
-      map = that.map = new google.maps.Map($(options.canvas)[0], mapOptions)
-      draw_routes_polyline(map, $(options.polyline).text())
+      draw_routes_polyline(that.map, $(options.polyline).text())
       for s, i in data
         do (s, i) ->
           setTimeout ->
             marker = MK
               position: LL(s.lat, s.lon)
-              map: map
+              map: that.map
               title: s.nickname
               icon: s.image
-              zIndex: 10000-i
+              zIndex: 10000 - i
               animation: google.maps.Animation.DROP
 
             google.maps.event.addListener marker, 'click', (event) ->
               that.setUserMap s
-          , i * 100
-
-      that.pano = new google.maps.StreetViewPanorama($('#panorama')[0])
-      that.sv = new google.maps.StreetViewService()
-      that.setUserMap vuser
+          , 500 + i * 50
 
       $(window).resize ->
-        h = $('body > .container-fluid').height() - $('#menu').height()
-        $('#listview').css('height', h)
-        $('#mapview').css('height', h)
+        $('#content').height($('body').height() - $('.navbar').outerHeight(true) - $('.footer').outerHeight(true))
+        h = $('#content').height() - $('#menu').outerHeight(true)
+        $('#listview').height(h)
+        $('#mapview').height(h)
         if $('#panorama').css('display') is 'none'
-          $('#map').css('height', h)
+          $('#map').height(h)
         else
-          $('#map').css('height', h - $('#panorama').height())
+          $('#map').height(h - $('#panorama').outerHeight(true))
         google.maps.event.trigger that.map, 'resize'
 
       $('#listview').on 'mouseover', 'img', ->
