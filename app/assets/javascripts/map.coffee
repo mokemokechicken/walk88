@@ -70,12 +70,12 @@ Map = (options) ->
           zoom: 1
         $('#panorama').show()
         that.pano.setVisible true
-        $('#map').css('height', $('#mapview').height() - $('#panorama').height())
+        $('#map').height($('#mapview').height() - $('#panorama').outerHeight(true))
         google.maps.event.trigger that.map, 'resize'
       else
         $('#panorama').hide()
         that.pano.setVisible false
-        $('#map').css('height', $('#mapview').height())
+        $('#map').height($('#mapview').height())
         google.maps.event.trigger that.map, 'resize'
       that.map.setCenter LL(user.lat, user.lon)
 
