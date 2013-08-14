@@ -37,7 +37,7 @@ Map = (options) ->
               position: LL(s.lat, s.lon)
               map: that.map
               title: s.nickname
-              icon: s.image
+              icon: location.origin + "/users/#{s.id}/picture"
               zIndex: 10000 - i
               animation: google.maps.Animation.DROP
 
