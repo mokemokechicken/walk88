@@ -66,3 +66,5 @@ gem 'whenever', require: false
 gem 'colorize'
 gem 'polylines'
 gem 'geocoder'
+
+gem 'rmagick', :require => 'RMagick'
