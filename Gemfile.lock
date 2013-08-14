@@ -135,6 +135,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    rmagick (2.13.2)
     sass (3.2.10)
     sass-rails (4.0.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -197,6 +198,7 @@ DEPENDENCIES
   polylines
   puma
   rails (= 4.0.0.rc2)
+  rmagick
   sass-rails (~> 4.0.0.rc2)
   sdoc
   sqlite3

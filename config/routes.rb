@@ -12,6 +12,8 @@ Walk88::Application.routes.draw do
     get 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
 
+  get '/users/:id/picture', :to => 'users#picture'
+
   root :to => 'home#index'
   get '/', :to => 'home#index', :as => :sign_in_and_redirect
   get '/', :to => 'home#index', :as => :new_user_registration_url
