@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_one :user_setting
   has_one :user_status
   has_many :user_record
+  has_one :group_user
 
   devise :omniauthable, :omniauth_providers => [:facebook]
 
