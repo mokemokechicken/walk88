@@ -1,0 +1,17 @@
+%h1 グループの成績
+
+.row-fluid
+  .offset2.span8.center
+    %table.table.table-striped
+      %thead
+        %tr
+          %th グループ名
+          %th 平均距離(Km)
+      %tbody
+        - @group_ranking.each do |info|
+          %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}")
+            %td= info['name']
+            %td= sprintf('%.1f', info['avg_distance'])
+
+%div ※ 2013年10月1日以降のチームメンバーの累計距離の平均で順位を決めています
+%div ※（今はテストで2013年9月1日以降です)

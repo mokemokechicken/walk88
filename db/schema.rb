@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130806163200) do
+ActiveRecord::Schema.define(version: 20130928055933) do
+
+  create_table "group_users", force: true do |t|
+    t.integer "group_id"
+    t.integer "user_id"
+  end
+
+  create_table "groups", force: true do |t|
+    t.string "name"
+  end
 
   create_table "location_routes", force: true do |t|
     t.integer "start_id"
