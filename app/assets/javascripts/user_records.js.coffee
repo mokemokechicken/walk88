@@ -46,7 +46,7 @@ WeeklyGraph = (opts) ->
             text: '歩数'
           labels:
             formatter: ->
-              this.value + 'do'
+              this.value + '歩'
         tooltip:
           crosshairs: true
           shared: true
