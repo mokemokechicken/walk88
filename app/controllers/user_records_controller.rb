@@ -10,7 +10,7 @@ class UserRecordsController < ApplicationController
     @user = User.find(user_id)
     @user_setting = @user.user_setting
     @user_records = UserRecord.where(user_id: user_id).
-        paginate(:page => params[:page], :per_page => 30).order('day desc')
+        paginate(:page => params[:page], :per_page => 14).order('day desc')
   end
 
   # GET /user_records/1

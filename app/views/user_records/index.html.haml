@@ -1,3 +1,6 @@
+- content_for :post_head do
+  = javascript_include_tag "http://code.highcharts.com/highcharts.js"
+
 .row-fluid
   .offset2.span8
     %h1
@@ -6,7 +9,11 @@
       の記録一覧
 
 .row-fluid
-  .offset2.span8.center
+  .offset2.span8
+    %div{:id => 'container'}
+
+.row-fluid
+  .offset3.span7.center
     %table.table.table-striped
       %thead
         %tr
@@ -41,3 +48,10 @@
         = link_to new_user_record_path, :class => 'btn btn-primary' do
           %i.icon-add
           追加入力
+
+:coffee
+  $ ->
+    WeeklyGraph
+      canvas: '#container'
+      user_id: #{@user.id}
+    .init()
