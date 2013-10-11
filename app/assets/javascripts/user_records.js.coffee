@@ -34,7 +34,7 @@ WeeklyGraph = (opts) ->
             width: 2
           },{
             color: 'red'
-            value: 7500
+            value: 7501
             width: 1
           },{
             color: 'red'
