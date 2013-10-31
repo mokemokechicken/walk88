@@ -5,7 +5,7 @@ class GroupRanking < ActiveRecord::Base
       FROM groups g
       JOIN group_users gu ON (g.id = gu.group_id)
       JOIN user_records r ON (gu.user_id = r.user_id)
-      WHERE r.day >= '2013-10-01'
+      WHERE r.day >= '2013-10-01' and r.day < '2013-11-01'
       GROUP BY g.id, g.name
       ORDER BY avg(r.distance) DESC
     SQL
