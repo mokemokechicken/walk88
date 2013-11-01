@@ -6,7 +6,7 @@
       %thead
         %tr
           %th グループ名
-          %th 平均距離(Km)
+          %th 合計距離(Km)
       %tbody
         - @group_ranking.each do |info|
           %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}")
