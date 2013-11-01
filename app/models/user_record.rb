@@ -16,7 +16,7 @@ class UserRecord < ActiveRecord::Base
       h = {
           week: week[0].day.to_s,
           step: (1.0 * week.map{|d| d.steps}.sum / week.size).to_i,
-          distance: 1.0 * week.map{|d| d.distance}.sum / week.size,
+          distance: 1.0 * week.map{|d| d.distance}.sum,
       }
     end
   end
