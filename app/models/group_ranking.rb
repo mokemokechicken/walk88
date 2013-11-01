@@ -14,7 +14,7 @@ class GroupRanking < ActiveRecord::Base
       rec['avg_steps']    = 1.0 * rec['steps']    / members[rec['id']]
       rec['avg_distance'] = 1.0 * rec['distance'] / members[rec['id']]
     end
-    records.sort_by {|x| -x['avg_distance']}
+    records.sort_by {|x| -x['distance']}
   end
 end
 

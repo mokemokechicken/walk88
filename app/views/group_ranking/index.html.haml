@@ -11,6 +11,6 @@
         - @group_ranking.each do |info|
           %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}")
             %td= info['name']
-            %td= sprintf('%.1f', info['avg_distance'])
+            %td= sprintf('%.1f', info['distance'])
 
 %div ※ 2013年11月1日以降のチームメンバーの累計距離の合計で順位を決めています
