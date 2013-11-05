@@ -12,6 +12,7 @@ class UserRecord < ActiveRecord::Base
       end
       week << rec
     end
+    weeks << week if week.size > 0
     weeks.map do |week|
       h = {
           week: week[0].day.to_s,
