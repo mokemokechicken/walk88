@@ -1,6 +1,7 @@
 Walk88::Application.routes.draw do
   get "weekly_records/index"
   get '/group_ranking/', :to => 'group_ranking#index'
+  get '/group_ranking/by_day', :to => 'group_ranking#by_day'
   resources :user_records
   get '/user_records/user/:user_id', :to => 'user_records#index', :as => :user_records_of_user
   post '/user_records/:id/fitbit', :to => 'user_records#sync_fitbit'

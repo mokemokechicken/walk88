@@ -1,8 +1,15 @@
+- content_for :post_head do
+  = javascript_include_tag "http://code.highcharts.com/highcharts.js"
+
 %h1 グループの成績
 
 .row-fluid
+  .offset2.span8
+    %div{:id => 'container'}
+
+.row-fluid
   .offset2.span8.center
-    %table.table.table-striped
+    %table.table.table-striped(id="ranking")
       %thead
         %tr
           %th グループ名
@@ -10,11 +17,18 @@
           %th メンバー
       %tbody
         - @group_ranking.each do |info|
-          %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}")
+          %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}" id="group_#{info['id']}")
             %td= info['name']
-            %td= sprintf('%.1f', info['distance'])
+            %td(id="dist_#{info['id']}")= sprintf('%.1f', info['distance'])
             %td
               - @group_users.select{|gu| info["id"] == gu.group_id}.each do |gu|
                 = link_to image_tag(gu.user.image, :alt => gu.user.nickname), user_records_of_user_path(:user_id => gu.user_id)
+
+
+:coffee
+  $ ->
+    GroupRanking
+      canvas: '#container'
+    .init()
 
 %div ※ 2013年11月1日以降のチームメンバーの累計距離の合計で順位を決めています
