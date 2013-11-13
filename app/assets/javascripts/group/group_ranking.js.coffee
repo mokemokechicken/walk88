@@ -18,8 +18,6 @@ GroupRanking = (options) ->
         series.push
           data: group_rec
           name: day.name
-          marker:
-            symbol: 'square'
 
       $(options.canvas).highcharts
         chart:
