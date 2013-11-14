@@ -18,26 +18,53 @@ GroupRanking = (options) ->
         series.push
           data: group_rec
           name: day.name
+      series = convert_to_rank(series)
 
       $(options.canvas).highcharts
         chart:
           zoomType: 'x'
           type: 'spline'
         title:
-          text: '日々の推移'
+          text: '順位の推移'
         xAxis:
           categories: (day.day for day in data.ranking[0])
         yAxis:
-          min: 0
+          reversed: true
+          min: 1
+          max: series.length
+          type: 'category'
           title:
-            text: '合計距離(Km)'
+            text: '順位'
           labels:
             formatter: ->
-              this.value + 'Km'
+              this.value + '位'
         tooltip:
           crosshairs: true
           shared: true
         series: series
+
+  convert_to_rank = (series) ->
+    dists = series.map((group) -> group.data)
+    ranks = zip.apply(null, dists).map(number_to_rank)
+    console.log(dists)
+    console.log(ranks)
+    group_ranks = zip.apply(null, ranks)
+    for rank, i in group_ranks
+      series[i].data = rank
+
+    console.log(series)
+    series
+
+  number_to_rank = (arr) ->
+    sorted = arr.slice().sort((a,b) -> b-a)
+    arr.slice().map((v) -> sorted.indexOf(v)+1)
+
+  zip = () ->
+    lengthArray = (arr.length for arr in arguments)
+    length = Math.min(lengthArray...)
+    for i in [0...length]
+      arr[i] for arr in arguments
+
   return that
 
 
