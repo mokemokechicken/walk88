@@ -13,7 +13,8 @@ GroupRanking = (options) ->
         sum = 0
         group_rec = []
         for day in group
-          sum += day.distance
+          # sum += day.distance
+          sum = day.distance
           group_rec.push sum
         series.push
           data: group_rec
@@ -46,13 +47,9 @@ GroupRanking = (options) ->
   convert_to_rank = (series) ->
     dists = series.map((group) -> group.data)
     ranks = zip.apply(null, dists).map(number_to_rank)
-    console.log(dists)
-    console.log(ranks)
     group_ranks = zip.apply(null, ranks)
     for rank, i in group_ranks
       series[i].data = rank
-
-    console.log(series)
     series
 
   number_to_rank = (arr) ->
