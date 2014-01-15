@@ -7,7 +7,7 @@ GroupRanking = (options) ->
   that.init = ->
     $.getJSON '/group_ranking/by_day', (data) ->
       console.log(data)
-
+      return if data.ranking.length == 0
       series = []
       for group in data.ranking
         sum = 0
