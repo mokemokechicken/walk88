@@ -8,13 +8,14 @@
         %ul
           - @user_setting.errors.full_messages.each do |msg|
             %li= msg
-
-    歩幅: #{f.text_field :step_dist, :size => 10} cm
-    %br
-    方向:
-    = f.select :reverse_mode, reverse_mode_list
-    %br
-    %br
-    %br
+    %div
+      名前:
+      = fields_for @user do |u|
+        = u.text_field :nickname, :size => 30
+    %div
+      歩幅: #{f.text_field :step_dist, :size => 10} cm
+    %div
+      方向:
+      = f.select :reverse_mode, reverse_mode_list
     .actions
       = f.submit '保存する', :class => 'btn'
