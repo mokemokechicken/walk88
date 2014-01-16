@@ -79,6 +79,7 @@ class GroupRanking2 < ActiveRecord::Base
 
   def self.calc_distance(distance_list)
     avg = distance_list.reduce(:+).to_f / distance_list.size
+    return 0 if avg == 0
     sigma = calc_sigma(distance_list)
     ratio = [1-(1.0*sigma/avg), 0].max
     z = distance_list.reduce(:+) * (2**ratio)
