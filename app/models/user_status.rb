@@ -39,7 +39,7 @@ class UserStatus < ActiveRecord::Base
       nl = Location.find_by(number: cl.number-1)
       rt = LocationRoute.find_by(end_id: cl.number)
       cl_total_distance = Location.max_total_distance - cl.total_distance
-      next_distance_from_cl_to_nl = nl.next_distance
+      next_distance_from_cl_to_nl = nl.next_distance if nl
     end
 
     self.location_id = cl.id
