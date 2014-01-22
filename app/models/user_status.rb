@@ -73,6 +73,7 @@ class UserStatus < ActiveRecord::Base
       self.next_distance = 0
       self.lat = cl.lat
       self.lon = cl.lon
+      self.bearing = 0
     end
     save
     self
