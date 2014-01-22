@@ -68,6 +68,11 @@ class UserStatus < ActiveRecord::Base
       self.lon = lines[0][1] * progress + lines[1][1] * (1 - progress)
 
       self.bearing = Geocoder::Calculations.bearing_between(lines[0], lines[1])
+    else
+      self.next_location_id = cl.id
+      self.next_distance = 0
+      self.lat = cl.lat
+      self.lon = cl.lon
     end
     save
     self
