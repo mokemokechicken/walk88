@@ -39,7 +39,7 @@ class UserStatus < ActiveRecord::Base
       nl = Location.find_by(number: cl.number-1)
       rt = LocationRoute.find_by(end_id: cl.number)
       cl_total_distance = Location.max_total_distance - cl.total_distance
-      next_distance_from_cl_to_nl = nl.next_distance
+      next_distance_from_cl_to_nl = nl.next_distance if nl
     end
 
     self.location_id = cl.id
@@ -68,6 +68,12 @@ class UserStatus < ActiveRecord::Base
       self.lon = lines[0][1] * progress + lines[1][1] * (1 - progress)
 
       self.bearing = Geocoder::Calculations.bearing_between(lines[0], lines[1])
+    else
+      self.next_location_id = cl.id
+      self.next_distance = 0
+      self.lat = cl.lat
+      self.lon = cl.lon
+      self.bearing = 0
     end
     save
     self
