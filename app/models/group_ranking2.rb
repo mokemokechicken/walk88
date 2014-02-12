@@ -78,6 +78,14 @@ class GroupRanking2 < ActiveRecord::Base
   end
 
   def self.calc_distance(distance_list)
+    calc_distance_simple(distance_list)
+  end
+
+  def self.calc_distance_simple(distance_list)
+    distance_list.reduce(:+)
+  end
+
+  def self.calc_distance_with_sigma(distance_list)
     avg = distance_list.reduce(:+).to_f / distance_list.size
     return 0 if avg == 0
     sigma = calc_sigma(distance_list)
