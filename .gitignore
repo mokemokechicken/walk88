@@ -17,6 +17,7 @@
 
 /.idea
 /vendor
+/.ruby-version
 
 secrets.json
 .DS_Store
