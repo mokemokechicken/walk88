@@ -13,13 +13,13 @@
       %thead
         %tr
           %th グループ名
-          %th 距離スコア
+          %th 合計距離(km)
           %th メンバー
       %tbody
         - @group_ranking.each do |info|
           %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}" id="group_#{info['id']}")
             %td= info['name']
-            %td(id="dist_#{info['id']}")= sprintf('%.1f', info['distance'])
+            %td(id="dist_#{info['id']}")= sprintf('%.1f km', info['distance'])
             %td
               - @group_users.select{|gu| info["id"] == gu.group_id}.each do |gu|
                 = link_to image_tag(gu.user.image, :alt => gu.user.nickname), user_records_of_user_path(:user_id => gu.user_id)
