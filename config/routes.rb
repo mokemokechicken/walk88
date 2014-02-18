@@ -34,5 +34,6 @@ Walk88::Application.routes.draw do
   namespace :api do
     resources :user, :only => %w(index show)
     resources :user_status, :only => %w(index show)
+    resources :location, :only => %w(index)
   end
 end

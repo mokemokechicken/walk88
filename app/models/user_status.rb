@@ -30,6 +30,10 @@ class UserStatus < ActiveRecord::Base
         nickname: us.user.nickname,
         location: us.location,
         next_location: us.next_location,
+        total_step: us.total_step,
+        total_distance: us.total_distance,
+        next_distance: us.next_distance,
+        last_walk_day: us.last_walk_day,
         image: us.user.image,
         is_reverse: us.user.user_setting.reverse_mode == UserSetting::REVERSE_MODE,
     }}
