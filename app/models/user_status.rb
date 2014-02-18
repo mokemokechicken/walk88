@@ -11,6 +11,30 @@ class UserStatus < ActiveRecord::Base
     model.update_user_status
   end
 
+  def self.all_data(reverse_mode)
+    add_map(
+        UserStatus.all.
+        order('user_statuses.total_distance desc').
+        where('user_statuses.total_distance > 0').
+        where('user_settings.reverse_mode = ?', reverse_mode))
+  end
+
+  def self.add_map(query)
+    query.
+        eager_load(:location, :user => :user_setting).
+        map {|us| {
+        id: us.user_id,
+        lat: us.lat,
+        lon: us.lon,
+        bearing: us.bearing,
+        nickname: us.user.nickname,
+        location: us.location,
+        next_location: us.next_location,
+        image: us.user.image,
+        is_reverse: us.user.user_setting.reverse_mode == UserSetting::REVERSE_MODE,
+    }}
+  end
+
   def self.update_user_status(user_id)
     us = UserStatus.find_by(user_id: user_id)
     if us
