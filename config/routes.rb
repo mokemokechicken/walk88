@@ -1,4 +1,6 @@
 Walk88::Application.routes.draw do
+  get "user_status/index"
+  get "user_status/show"
   get "weekly_records/index"
   get '/group_ranking/', :to => 'group_ranking#index'
   get '/group_ranking/by_day', :to => 'group_ranking#by_day'
@@ -28,4 +30,10 @@ Walk88::Application.routes.draw do
 
   resources :user_statuses, :only => %w(index)
   resources :locations, :only => %w(index)
+
+  namespace :api do
+    resources :user, :only => %w(index show)
+    resources :user_status, :only => %w(index show)
+    resources :location, :only => %w(index)
+  end
 end

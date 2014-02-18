@@ -32,9 +32,9 @@ describe GroupRanking2 do
     GroupRanking2.stub(:calc_distance) {|dlist| dlist.reduce(:+) * 2}  # 距離合計の２倍を返すだけにする
   end
 
-  describe 'calc_distance' do
+  describe 'calc_distance_with_sigma' do
     it 'should calc distance' do
-      expect(GroupRanking2.calc_distance([100,110,120]).to_i).to eq(626)
+      expect(GroupRanking2.calc_distance_with_sigma([100,110,120]).to_i).to eq(626)
     end
   end
 
