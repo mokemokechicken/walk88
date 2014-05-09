@@ -17,7 +17,7 @@
           %th メンバー
       %tbody
         - @group_ranking.each do |info|
-          %tr(class="#{info['id'] == @my_group.group_id ? 'success' : ''}" id="group_#{info['id']}")
+          %tr(class="#{info['id'] == (@my_group && @my_group.group_id) ? 'success' : ''}" id="group_#{info['id']}")
             %td= info['name']
             %td(id="dist_#{info['id']}")= sprintf('%.1f km', info['distance'])
             %td
@@ -33,7 +33,7 @@
 
 .row-fluid
   .span12
-    %div ※ 2014年2月14日~2月末のチームメンバーの距離の合計を使って順位を計算しています。
+    %div ※ 2014年5月12日~6月12日のチームメンバーの距離の合計を使って順位を計算しています。
     %div &nbsp;
     %div &nbsp;
     %div &nbsp;

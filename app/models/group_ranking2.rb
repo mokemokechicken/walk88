@@ -1,6 +1,6 @@
 class GroupRanking2 < ActiveRecord::Base
   START_DATE = '2014-05-12'
-  END_DATE   = '2014-06-01'
+  END_DATE   = '2014-06-13'
 
   def self.ranking_list(start_date=START_DATE, end_date=END_DATE)
     records = ActiveRecord::Base.connection.execute <<-SQL
