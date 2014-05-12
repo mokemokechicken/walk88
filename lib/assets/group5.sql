@@ -16,8 +16,9 @@ INSERT INTO groups(id, name) VALUES(2, 'ゆめみチーム');
 INSERT INTO group_users(group_id, user_id) VALUES(2, 78);
 INSERT INTO group_users(group_id, user_id) VALUES(2, 22);
 INSERT INTO group_users(group_id, user_id) VALUES(2, 21);
-INSERT INTO group_users(group_id, user_id) VALUES(2, 49);
-INSERT INTO group_users(group_id, user_id) VALUES(2, 51);
+INSERT INTO group_users(group_id, user_id) VALUES(2, 80);
+INSERT INTO group_users(group_id, user_id) VALUES(2, 83);
+INSERT INTO group_users(group_id, user_id) VALUES(2, 24);
 INSERT INTO group_users(group_id, user_id) VALUES(2, 14);
 INSERT INTO group_users(group_id, user_id) VALUES(2, 6);
 
