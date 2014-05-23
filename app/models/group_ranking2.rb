@@ -1,6 +1,8 @@
 class GroupRanking2 < ActiveRecord::Base
   START_DATE = '2014-05-12'
   END_DATE   = '2014-06-13'
+  COUNT_KEY = 'steps'
+  KM_PER_STEP = 0.00075
 
   def self.ranking_list(start_date=START_DATE, end_date=END_DATE)
     records = ActiveRecord::Base.connection.execute <<-SQL
@@ -27,7 +29,7 @@ class GroupRanking2 < ActiveRecord::Base
       hash = {
           'id' => u['id'],
           'name' => u['name'],
-          'distance' => calc_distance(user_list.map{|x| x['distance']}),
+          'distance' => calc_distance(user_list.map{|x| x[COUNT_KEY] * KM_PER_STEP}),
       }
       ret << hash
     end
@@ -53,7 +55,8 @@ class GroupRanking2 < ActiveRecord::Base
     user_distance = Hash.new(0)
     records << Hash.new(0)
     records.each do |record|
-      user_distance[record['user_id']] += record['distance']
+      # user_distance[record['user_id']] += record['distance']
+      user_distance[record['user_id']] += record[COUNT_KEY] * KM_PER_STEP
       distance = user_distance[record['user_id']]
       if cur_group && cur_group['id'] == record['id'] && cur_group['day'] == record['day']
         group_user_array << distance
