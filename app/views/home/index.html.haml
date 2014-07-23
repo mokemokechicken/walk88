@@ -11,12 +11,12 @@
           %label(style="display:inline;")
             = check_box_tag 'show_route'
             2拠点間ルートを表示
-          = link_to '/?reverse_mode=0', :class => 'btn' do
-            %i.icon-arrow-down
-            順路版を表示
-          = link_to '/?reverse_mode=1', :class => 'btn' do
-            %i.icon-arrow-up
-            逆路版を表示
+          -#= link_to '/?reverse_mode=0', :class => 'btn' do
+          -#  %i.icon-arrow-down
+          -#  順路版を表示
+          -#= link_to '/?reverse_mode=1', :class => 'btn' do
+          -#  %i.icon-arrow-up
+          -#  逆路版を表示
           %a.btn#kml_add
             %i.icon-map-marker
             お遍路を表示

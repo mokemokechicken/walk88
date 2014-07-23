@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:picture]
 
   def picture
+    return  send_data '', :type => 'text/plain'
+
     blob = ActiveSupport::Cache.lookup_store(:file_store, 'tmp/as_cache').fetch("user_pic/#{@user.id}") do
       mask_path = Rails.root.join('app', 'assets', 'images', 'mask.png').to_s
       pin_path = Rails.root.join('app', 'assets', 'images', 'pin.png').to_s
