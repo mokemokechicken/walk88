@@ -1,3 +1,7 @@
+require 'net/http'
+require 'net/https'
+require 'uri'
+
 class UsersController < ApplicationController
   before_action :set_user, only: [:picture]
 
@@ -6,7 +10,7 @@ class UsersController < ApplicationController
       mask_path = Rails.root.join('app', 'assets', 'images', 'mask.png').to_s
       pin_path = Rails.root.join('app', 'assets', 'images', 'pin.png').to_s
 
-      pic = Magick::ImageList.new(@user.image).first
+      pic = Magick::ImageList.new(expand_url(@user.image)).first
       pin = Magick::ImageList.new(pin_path).first
       tmp = Magick::ImageList.new(mask_path)
       tmp.alpha = Magick::ActivateAlphaChannel
@@ -17,6 +21,20 @@ class UsersController < ApplicationController
     end
 
     send_data blob, :disposition => 'inline', :type => 'image/png'
+  end
+
+  def expand_url(url)
+    uri = url.kind_of?(URI) ? url : URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true if uri.scheme == 'https'
+    http.start do |io|
+      r = io.head(uri.path)
+      if r.code == '302'
+        return expand_url(r['Location'])
+      else
+        return url.to_s
+      end
+    end
   end
 
   private
