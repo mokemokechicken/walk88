@@ -26,5 +26,5 @@ every 1.hours do
 end
 
 every 1.day do
-  runner 'UserPinUpdate.update'
+  runner 'UserPinUpdate.execute'
 end
