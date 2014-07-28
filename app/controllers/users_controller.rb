@@ -1,40 +1,8 @@
-require 'net/http'
-require 'net/https'
-require 'uri'
-
 class UsersController < ApplicationController
   before_action :set_user, only: [:picture]
 
   def picture
-    blob = ActiveSupport::Cache.lookup_store(:file_store, 'tmp/as_cache').fetch("user_pic/#{@user.id}") do
-      mask_path = Rails.root.join('app', 'assets', 'images', 'mask.png').to_s
-      pin_path = Rails.root.join('app', 'assets', 'images', 'pin.png').to_s
-
-      pic = Magick::ImageList.new(expand_url(@user.image)).first
-      pin = Magick::ImageList.new(pin_path).first
-      tmp = Magick::ImageList.new(mask_path)
-      tmp.alpha = Magick::ActivateAlphaChannel
-      mask = tmp.fx('1-r', Magick::AlphaChannel)
-      mpic = mask.composite(pic, 0, 0, Magick::SrcInCompositeOp)
-      ret = pin.composite(mpic, 2, 2, Magick::OverCompositeOp)
-      ret.to_blob
-    end
-
-    send_data blob, :disposition => 'inline', :type => 'image/png'
-  end
-
-  def expand_url(url)
-    uri = url.kind_of?(URI) ? url : URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
-    http.start do |io|
-      r = io.head(uri.path)
-      if r.code == '302'
-        return expand_url(r['Location'])
-      else
-        return url.to_s
-      end
-    end
+    send_data UserPin.new(@user.id, @user.image).pin, :disposition => 'inline', :type => 'image/png'
   end
 
   private

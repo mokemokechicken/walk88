@@ -24,3 +24,7 @@ set :output, File.expand_path('../../log/cron_log.log', __FILE__)
 every 1.hours do
   runner 'FitbitImport.execute'
 end
+
+every 1.day do
+  runner 'UserPinUpdate.update'
+end
