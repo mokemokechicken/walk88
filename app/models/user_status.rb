@@ -14,9 +14,9 @@ class UserStatus < ActiveRecord::Base
   def self.all_data(reverse_mode)
     add_map(
         UserStatus.all.
-        order('user_statuses.total_distance desc').
         where('user_statuses.total_distance > 0').
-        where('user_settings.reverse_mode = ?', reverse_mode))
+        #where('user_settings.reverse_mode = ?', reverse_mode).
+        order('user_statuses.total_distance desc'))
   end
 
   def self.add_map(query)
