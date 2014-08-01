@@ -93,8 +93,8 @@ class UserStatus < ActiveRecord::Base
       progress = passed / distance
       progress = 1 - progress if setting.is_reverse_mode?
 
-      self.lat = lines[0][0] * progress + lines[1][0] * (1 - progress)
-      self.lon = lines[0][1] * progress + lines[1][1] * (1 - progress)
+      self.lat = lines[1][0] * progress + lines[0][0] * (1 - progress)
+      self.lon = lines[1][1] * progress + lines[0][1] * (1 - progress)
 
       self.bearing = Geocoder::Calculations.bearing_between(lines[0], lines[1])
     else
