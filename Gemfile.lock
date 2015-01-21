@@ -64,7 +64,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
-    fitgem (0.8.0)
+    fitgem (0.10.0)
       oauth
     geocoder (1.1.9)
     haml (4.0.4)
@@ -92,7 +92,7 @@ GEM
     less-rails (2.4.2)
       actionpack (>= 3.1)
       less (~> 2.4.0)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
