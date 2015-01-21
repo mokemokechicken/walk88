@@ -49,7 +49,7 @@ class UserStatus < ActiveRecord::Base
 
   # @return [UserStatus]
   def update_user_status
-    query = UserRecord.where(user_id: user_id).where('day BETWEEN ? AND ?', '2014-07-23', '2014-08-22')
+    query = UserRecord.where(user_id: user_id).where('day > ?', '2014-08-22')
     rec = query.select('sum(steps) as steps, sum(distance) as distance').first
     last_day = query.maximum(:day)
     setting = UserSetting.find_by(user_id: user_id)
