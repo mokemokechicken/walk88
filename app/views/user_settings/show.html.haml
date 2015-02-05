@@ -1,14 +1,6 @@
 %h1
   = @user.nickname
   の設定
-%p#notice= notice
-歩幅: #{@user_setting.step_dist} cm
--#%br
--#方向: #{reverse_mode_label(@user_setting.reverse_mode)}
-%br
-%br
-%br
-%br
 %br
 %div
-  = link_to '編集する', edit_user_setting_path(@user_setting), :class => 'button icon edit'
+  = link_to '編集する', user_settings_edit_path, :class => 'btn btn-default'

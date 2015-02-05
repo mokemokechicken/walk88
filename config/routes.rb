@@ -9,7 +9,10 @@ Walk88::Application.routes.draw do
   post '/user_records/:id/fitbit', :to => 'user_records#sync_fitbit'
   get '/weekly_records/:user_id', :to => 'weekly_records#index'
 
-  resources :user_settings
+  #resources :user_settings
+  get '/user_settings', :to => 'user_settings#show'
+  get '/user_settings/edit', :to => 'user_settings#edit'
+  post '/user_settings/edit', :to => 'user_settings#update'
 
   devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks'}
 

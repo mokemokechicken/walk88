@@ -11,29 +11,13 @@ class UserSettingsController < ApplicationController
   def edit
   end
 
-  # POST /user_settings
-  # POST /user_settings.json
-  def create
-    @user_setting = UserSetting.new(user_setting_params)
-
-    respond_to do |format|
-      if @user_setting.save
-        format.html { redirect_to @user_setting, notice: '保存しました' }
-        format.json { render action: 'show', status: :created, location: @user_setting }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user_setting.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # PATCH/PUT /user_settings/1
   # PATCH/PUT /user_settings/1.json
   def update
     respond_to do |format|
       if @user_setting.update(user_setting_params) && @user.update(user_params)
         UserStatus.update_user_status(@user_setting.user_id)
-        format.html { redirect_to @user_setting, notice: '保存しました' }
+        format.html { redirect_to user_settings_path, notice: '保存しました' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -42,26 +26,17 @@ class UserSettingsController < ApplicationController
     end
   end
 
-  # DELETE /user_settings/1
-  # DELETE /user_settings/1.json
-  def destroy
-    @user_setting.destroy
-    respond_to do |format|
-      format.html { redirect_to user_settings_url }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user_setting
-      @user_setting = UserSetting.find(params[:id])
-      @user = @user_setting.user
+      @user_setting = UserSetting.find(current_user.id)
+      @user = current_user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_setting_params
-      params.require(:user_setting).permit(:step_dist, :reverse_mode)
+      # params.require(:user_setting).permit(:step_dist, :reverse_mode)
+      {}
     end
 
     def user_params

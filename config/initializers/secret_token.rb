@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Walk88::Application.config.secret_key_base = SecretInfo['rails']['key_base']
+Walk88::Application.config.secret_key_base = ENV['RAILS_KEY_BASE']

@@ -1,6 +1,6 @@
 module HomeHelper
   def google_api_access
-    "http://maps.googleapis.com/maps/api/js?key=#{SecretInfo['google']['key']}&libraries=geometry&sensor=false"
+    "http://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_KEY']}&libraries=geometry&sensor=false"
   end
 
   def google_javascript_tag
