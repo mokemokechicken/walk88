@@ -2,7 +2,7 @@ class FitbitImport
   require 'date'
 
   def self.execute(from_date='2013-06-01')
-    new.start(6, from_date)
+    new.start(Settings.fitbit.fetch_past_days, from_date)
   end
 
   def start(days_ago, from_date)

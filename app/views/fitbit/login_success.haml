@@ -1,7 +1,10 @@
-%br
 %div
   Fitbitとの連携に成功しました
+-#%div
+-#  %p 本日の歩数  #{@today[:step]}
+-#  %p 本日の歩行距離 #{@today[:dist]} Km
+
 %div
-  本日の歩数  #{@today[:step]}
-  %br
-  本日の歩行距離 #{@today[:dist]} Km
+  %p
+    %a
+      = link_to 'Topへ', root_path, :class => 'btn btn-default'

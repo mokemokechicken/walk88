@@ -12,11 +12,10 @@ class UserStatus < ActiveRecord::Base
   end
 
   def self.all_data(reverse_mode)
-    add_map(
-        UserStatus.all.
-        where('user_statuses.total_distance > 0').
-        #where('user_settings.reverse_mode = ?', reverse_mode).
-        order('user_statuses.total_distance desc'))
+    query = UserStatus.all
+    query = query.where('user_statuses.total_distance > 0') if Settings.user_status.show_user_only_more_that_one_step
+    query = query.order('user_statuses.total_distance desc')
+    add_map(query)
   end
 
   def self.add_map(query)
@@ -49,7 +48,10 @@ class UserStatus < ActiveRecord::Base
 
   # @return [UserStatus]
   def update_user_status
-    query = UserRecord.where(user_id: user_id).where('day > ?', '2014-08-22')
+    query = UserRecord.where(user_id: user_id)
+    unless Settings.user_status.start_day.to_s.empty?
+      query = query.where('day >= ?', Settings.user_status.start_day.to_s)
+    end
     rec = query.select('sum(steps) as steps, sum(distance) as distance').first
     last_day = query.maximum(:day)
     setting = UserSetting.find_by(user_id: user_id)

@@ -74,3 +74,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
+
+# Read Setting Info as ENV Variables: http://qiita.com/closer/items/f8d8ba00ae86d7051764
+gem 'dotenv-rails'
+# Read Setting info into Settings object. http://qiita.com/yumiyon/items/32c6afb5e2e5b7ff369e
+gem 'rails_config'
+

@@ -8,8 +8,8 @@ Configuration
 --------------
 
     bundle install --path vendor/bundle
-    bin/decrypt      # for decrypt secrets.json
-
+    cp .env.tmpl .env
+    # and edit .env
 
 Database initialization
 -----------------------
@@ -31,3 +31,13 @@ Memo
 
     bundle exec rake assets:precompile
     bundle exec rails server -p 2000 -e production
+
+Batch系コマンド
+-----------------
+
+### Fitbitサーバからデータを取得する
+    TZ=Japan bundle exec rails runner -e production FitbitImport.execute
+
+### ユーザのPin画像を再取得する
+    TZ=Japan bundle exec rails runner -e production UserPinUpdate.execute
+
