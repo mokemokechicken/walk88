@@ -52,11 +52,20 @@ class UserStatus < ActiveRecord::Base
     unless Settings.user_status.start_day.to_s.empty?
       query = query.where('day >= ?', Settings.user_status.start_day.to_s)
     end
+    unless Settings.user_status.end_day.to_s.empty?
+      query = query.where('day < ?', Settings.user_status.end_day.to_s)
+    end
     rec = query.select('sum(steps) as steps, sum(distance) as distance').first
     last_day = query.maximum(:day)
     setting = UserSetting.find_by(user_id: user_id)
     self.total_step = rec.steps || 0
-    self.total_distance = rec.distance || 0
+
+    if Settings.use_fix_step_length
+      self.total_distance = self.total_step * Settings.use_fix_step_length / 1000.0
+    else
+      self.total_distance = rec.distance || 0
+    end
+
     self.last_walk_day = last_day
 
     unless setting.is_reverse_mode?
