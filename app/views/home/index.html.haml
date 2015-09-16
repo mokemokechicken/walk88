@@ -34,16 +34,19 @@
           %tr(data-user-id="#{status.user.id}")
             %td.number= i+1
             %td
-              = link_to image_tag(status.user.image, :alt => status.user.nickname), user_records_of_user_path(:user_id => status.user_id)
-              %div.position
+              %div.float-left
+                = link_to image_tag(status.user.image, :alt => status.user.nickname), user_records_of_user_path(:user_id => status.user_id)
+                %div= link_to (status.user.nickname || 'NoName'), "https://www.facebook.com/#{status.user.uid}"
+              %div.position.float-right
                 #{status.location.number}:#{status.location.name}
                 %i.icon-arrow-right
                 #{status.next_location.number}:#{status.next_location.name}
                 %span (あと #{sprintf('%3.2f', status.next_distance)}Km)
-              %div.status 累計: #{sprintf('%.1f', status.total_distance)}km, #{status.total_step}歩
-              %div.status
-                %i.icon-calendar
-                = status.last_walk_day
+              %div.float-right
+                %div.status 累計: #{sprintf('%.1f', status.total_distance)}km, #{status.total_step}歩
+                %div.status
+                  %i.icon-calendar
+                  = status.last_walk_day
   .span8#mapview
     #map
     #panorama この場所はストリートビューに対応していません
