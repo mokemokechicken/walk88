@@ -3,6 +3,9 @@ class HomeController < ApplicationController
 
   def index
     @user = current_user
+    if @user.nickname.to_s.empty?
+      return redirect_to new_user_session_path
+    end
     @user_setting = @user.user_setting || UserSetting.init(@user)
     @user_status = @user.user_status || UserStatus.init(@user)
     @reverse_mode = (if params.has_key?('reverse_mode')
