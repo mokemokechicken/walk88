@@ -6,4 +6,4 @@ use_fix_step_length: 0.75  # 0.75 meter
 user_status:
   start_day: 2015-09-14
   end_day: 2015-10-14
-  show_user_only_more_that_one_step: false
+  show_user_only_more_that_one_step: true
