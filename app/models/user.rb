@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
         user = User.create(
             provider:auth.provider,
             uid:auth.uid,
-            nickname: auth.info.nickname,
+            nickname: auth.info.name,
             image: auth.info.image,
             token: auth.credentials.token,
             expires_at: auth.credentials.expires_at
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
       end
     else
       user.update({
-                      nickname: auth.info.nickname,
+                      nickname: auth.info.name,
                       image: auth.info.image,
                       token: auth.credentials.token,
                       expires_at: auth.credentials.expires_at

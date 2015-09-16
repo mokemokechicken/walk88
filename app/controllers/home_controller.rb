@@ -10,11 +10,12 @@ class HomeController < ApplicationController
                      else
                        @user_setting.is_reverse_mode?
                      end) ? UserSetting::REVERSE_MODE : UserSetting::NORMAL_MODE
-    @current_statuses = UserStatus.all.eager_load(:location, :user => :user_setting).
-        where('user_statuses.total_distance > 0').
-        # where('user_settings.reverse_mode = ?', @reverse_mode).
-        order('user_statuses.total_distance desc')
-
+    query = UserStatus.all.eager_load(:location, :user => :user_setting)
+    if Settings.user_status.show_user_only_more_that_one_step
+      query = query.where('user_statuses.total_distance > 0')
+    end
+    # where('user_settings.reverse_mode = ?', @reverse_mode).
+    @current_statuses = query.order('user_statuses.total_distance desc')
     @overview_polyline = LocationRoute.overview_polyline
   end
 end
